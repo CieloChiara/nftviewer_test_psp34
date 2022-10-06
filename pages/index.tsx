@@ -110,6 +110,7 @@ const Home = () => {
         </div>
 
         <p className="m-1">(Test PSP34 on shiden: a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1)</p>
+        <p className="m-1">(Test PSP34 on local: bKF9cww361bvu2qwf9hy22WM3m4Md58qukaHQxt8F5SvdxZ)</p>
         <p className="m-1"><a target="_blank" rel="noreferrer" href="https://shibuya.subscan.io/account/a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1">Show on Subscan</a></p>
         <button disabled={!api || !contractAddress || !tokenId}
           className="bg-green-900 hover:bg-green-800 text-white rounded px-4 py-2"
