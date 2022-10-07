@@ -76,7 +76,7 @@ const Home = () => {
     });
     setApi(api);
     await extensionSetup();
-    setContractAddress('a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1');    
+    //setContractAddress('a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1');    
   };
 
   return (
@@ -114,14 +114,14 @@ const Home = () => {
         </div>
 
         <p className="m-1"><a target="_blank" rel="noreferrer" href="https://shibuya.subscan.io/account/a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1">Show on Subscan</a></p>
-        <button disabled={!api}
+        <button disabled={!api || !contractAddress || !tokenId }
           className="bg-green-900 hover:bg-green-800 text-white rounded px-4 py-2"
           onClick={getTokenURI}
-        >{api ? 'getTokenURI!' : 'Loding..'}</button>
+        >{api && contractAddress && tokenId ? 'View NFT' : 'Loding..'}</button>
         <input
           className="p-2 m-2 border-2"
           onChange={(event) => setContractAddress(event.target.value)}
-          placeholder="a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1"
+          placeholder="ContractAddress"
         />
         <input
           className="p-2 m-2 border-2  w-20"
@@ -134,14 +134,14 @@ const Home = () => {
             <p className="p-1 m-1 text-xl">{tokenName}</p>
           </div>
         </div>
-        <div className="p-2 m-2 border-1 w-full border border-gray-500">
+        <div className="p-2 m-auto border-1 w-11/12 border border-gray-500">
           <div className="hidden p-3 m-3">TokenURI: {tokenURI}</div>
           <p className="p-1 m-1 hidden">Result: {result}</p>
           <p className="p-1 m-1 break-all">MetadataUri: {outcome}</p>
           <p className="p-1 m-1 hidden">Gas consumed: {gasConsumed}</p>
           <p className="p-1 m-1 break-all" >ImageUri: {tokenJson}</p>
         </div>
-        <div className="p-2 m-2 border-1 w-full  border border-gray-500">
+        <div className="p-2 m-auto border-1 w-11/12 border border-gray-500">
           <p className="m-1 break-all">(Cielo sby: a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1)</p>
           <p className="m-1 break-all">(Piyo sby: Y1GKyffZjEbQghjoABVhLLenkr94nW6qpk5b5kCTw6wvBP9)</p>
           <p className="m-1 break-all">(Cielo local: bKF9cww361bvu2qwf9hy22WM3m4Md58qukaHQxt8F5SvdxZ)</p>
