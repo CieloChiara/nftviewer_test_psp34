@@ -45,6 +45,9 @@ const Home = () => {
   async function getTokenURI() {
     const gasLimit = 3000 * 1000000;
     const value = 0;
+    if (contractAddress == "") {
+      
+    }
     const contract = new ContractPromise(api, abi, contractAddress);
     const {gasConsumed, result, output} = 
       await contract.query.tokenUri(contractAddress, {value: 0, gasLimit: -1}, 0);
@@ -73,6 +76,7 @@ const Home = () => {
     });
     setApi(api);
     await extensionSetup();
+    setContractAddress('a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1');    
   };
 
   return (
@@ -92,7 +96,7 @@ const Home = () => {
           className="p-2 m-2 border-2"
           onChange={(event) => setBlockchainUrl(event.target.value)}
         />
-        <div className="p-1 m-1">Last block hash: {lastBlockHash}</div>
+        <div className="p-1 m-1 hidden">Last block hash: {lastBlockHash}</div>
         <div>
         <select
           className="p-3 m-3 border-2 border-green-500"
@@ -103,37 +107,45 @@ const Home = () => {
         >
           {accounts.map((a) => (
             <option key={a.address} value={a.address}>
-              {a.address} [{a.meta.name}]
+              [{a.meta.name}]
             </option>
           ))}
         </select>
         </div>
 
-        <p className="m-1">(Test PSP34 on shiden: a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1)</p>
-        <p className="m-1">(Test PSP34 on local: bKF9cww361bvu2qwf9hy22WM3m4Md58qukaHQxt8F5SvdxZ)</p>
         <p className="m-1"><a target="_blank" rel="noreferrer" href="https://shibuya.subscan.io/account/a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1">Show on Subscan</a></p>
-        <button disabled={!api || !contractAddress || !tokenId}
+        <button disabled={!api}
           className="bg-green-900 hover:bg-green-800 text-white rounded px-4 py-2"
           onClick={getTokenURI}
-        >{api && contractAddress ? 'getTokenURI!' : 'Couldn\'t load API or contract address or tokenId is invalid, please see logs in console.'}</button>
+        >{api ? 'getTokenURI!' : 'Loding..'}</button>
         <input
           className="p-2 m-2 border-2"
           onChange={(event) => setContractAddress(event.target.value)}
+          placeholder="a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1"
         />
         <input
-          className="p-2 m-2 border-2"
+          className="p-2 m-2 border-2  w-20"
           onChange={(event) => setTokenId(event.target.value)}
+          placeholder="TokenID"
         />
-        <div className="hidden p-3 m-3">TokenURI: {tokenURI}</div>
-        <p className="p-1 m-1 hidden">Result: {result}</p>
-        <p className="p-1 m-1">MetadataUri: {outcome}</p>
-        <p className="p-1 m-1 hidden">Gas consumed: {gasConsumed}</p>
-        <p className="p-1 m-1">ImageUri: {tokenJson}</p>
         <div className="flex justify-center">
           <div>
             <img className="p-2 m-2 w-64" src={tokenImageUri}></img>
-            <p className="p-1 m-1">TokenName: {tokenName}</p>
+            <p className="p-1 m-1 text-xl">{tokenName}</p>
           </div>
+        </div>
+        <div className="p-2 m-2 border-1 w-full border border-gray-500">
+          <div className="hidden p-3 m-3">TokenURI: {tokenURI}</div>
+          <p className="p-1 m-1 hidden">Result: {result}</p>
+          <p className="p-1 m-1 break-all">MetadataUri: {outcome}</p>
+          <p className="p-1 m-1 hidden">Gas consumed: {gasConsumed}</p>
+          <p className="p-1 m-1 break-all" >ImageUri: {tokenJson}</p>
+        </div>
+        <div className="p-2 m-2 border-1 w-full  border border-gray-500">
+          <p className="m-1 break-all">(Cielo sby: a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1)</p>
+          <p className="m-1 break-all">(Piyo sby: Y1GKyffZjEbQghjoABVhLLenkr94nW6qpk5b5kCTw6wvBP9)</p>
+          <p className="m-1 break-all">(Cielo local: bKF9cww361bvu2qwf9hy22WM3m4Md58qukaHQxt8F5SvdxZ)</p>
+          <p className="m-1 break-all">(Piyo local: b1nAeT4AL3N9T6cXiTWjwsJmT4xAvTtcW4mqzy7pA1vwDUY)</p>
         </div>
       </div>
     </>
