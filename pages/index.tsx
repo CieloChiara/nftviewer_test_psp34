@@ -90,20 +90,9 @@ const Home = () => {
       <div className="text-center">
         <div className="p-3 m-3 text-3xl">NFTViewer Test</div>
         <div className="p-1 m-1">Block: {block}</div>
-        <div className="p-2 m-2 text-xl">Blockchain URL: {blockchainUrl}</div>
-        <div className="p-1 m-1">Custom Blockchain URL (Testlocal: wss://astar-collator.cielo.works:11443)</div>
-        <button
-          className="bg-green-900 hover:bg-green-800 text-white rounded px-4 py-2"
-          onClick={setup}
-        >
-          Change Blockchain URL
-        </button>
-        <input
-          className="p-2 m-2 border-2"
-          onChange={(event) => setBlockchainUrl(event.target.value)}
-        />
-        <div className="p-1 m-1">Last block hash: {lastBlockHash}</div>
-        <div>
+        <div className="p-1 m-auto w-11/12 break-all">Last block hash: {lastBlockHash}</div>
+        <div className="p-2 m-2 text-xl">Current Blockchain URL: {blockchainUrl}</div>
+
         <select
           className="p-3 m-3 border-2 border-green-500 hidden"
           onChange={(event) => {
@@ -119,23 +108,26 @@ const Home = () => {
         </select>
         </div>
 
-        <button disabled={!contractAddress}
-          className="bg-green-900 hover:bg-green-800 text-white rounded px-4 py-2"
-          onClick={getTokenURI}
-        >{contractAddress ? 'View NFT' : 'Enter ContractAddress'}</button>
-        <input
-          className="p-2 m-2 border-2"
-          onChange={(event) => setContractAddress(event.target.value)}
-          placeholder="ContractAddress"
-        />
-        <input
-          className="p-2 m-2 border-2 w-20 hidden"
-          onChange={(event) => setTokenId(event.target.value)}
-          placeholder="TokenID"
-        />
-        <div className="flex justify-center">
+        <div className="text-center">
+          <button disabled={!contractAddress}
+            className="bg-green-900 hover:bg-green-800 text-white rounded px-4 py-2"
+            onClick={getTokenURI}
+          >{contractAddress ? 'View NFT' : 'Enter ContractAddress'}</button>
+          <input
+            className="p-2 m-2 border-2"
+            onChange={(event) => setContractAddress(event.target.value)}
+            placeholder="ContractAddress"
+          />
+          <input
+            className="p-2 m-2 border-2 w-20 hidden"
+            onChange={(event) => setTokenId(event.target.value)}
+            placeholder="TokenID"
+          />
+        </div>
+
+        <div className="text-center">
           <div>
-            <img className="p-2 m-2 w-64" src={tokenImageUri}></img>
+            <img className="p-2 m-auto w-64" src={tokenImageUri}></img>
             <p className="p-1 m-1 text-xl">{tokenName}</p>
             <p className={contractAddress ? "m-1" : "hidden"}><a target="_blank" rel="noreferrer" href={subScanUri}>Show on Subscan</a></p>
           </div>
@@ -148,11 +140,26 @@ const Home = () => {
           <p className="p-1 m-1 break-all" >ImageUri: {tokenJson}</p>
         </div>
         <div className="p-2 m-auto border-1 w-11/12 border border-gray-500">
-          <h3 className="m-1 text-xl">Contracts</h3>
-          <p className="m-1 break-all">Cielo on Shibuya: a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1</p>
-          <p className="m-1 break-all">Piyo on Shibuya: Y1GKyffZjEbQghjoABVhLLenkr94nW6qpk5b5kCTw6wvBP9</p>
-          <p className="m-1 break-all">Cielo on Localcollator: bKF9cww361bvu2qwf9hy22WM3m4Md58qukaHQxt8F5SvdxZ</p>
-          <p className="m-1 break-all">Piyo on Localcollator: b1nAeT4AL3N9T6cXiTWjwsJmT4xAvTtcW4mqzy7pA1vwDUY</p>
+          <h3 className="m-1 text-xl text-center">Contracts (Shibuya)</h3>
+          <p className="m-1 break-all">CieloNFT: a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1</p>
+          <p className="m-1 break-all">PiyoNFT: Y1GKyffZjEbQghjoABVhLLenkr94nW6qpk5b5kCTw6wvBP9</p>
+          <h3 className="m-1 text-xl text-center">Contracts (My LocalCollator)</h3>
+          <p className="m-1 break-all">CieloNFT: bKF9cww361bvu2qwf9hy22WM3m4Md58qukaHQxt8F5SvdxZ</p>
+          <p className="m-1 break-all">PiyoNFT: b1nAeT4AL3N9T6cXiTWjwsJmT4xAvTtcW4mqzy7pA1vwDUY</p>
+        </div>
+        <div className="p-1 m-auto mt-2 mb-4 w-11/12 text-center">
+          <div className="p-1 m-auto">Custom Blockchain URL (Testlocal: wss://astar-collator.cielo.works:11443)</div>
+          <button
+            className="bg-green-900 hover:bg-green-800 text-white rounded px-4 py-2"
+            onClick={setup}
+          >
+            Change Blockchain URL
+          </button>
+          <input
+            className="p-2 m-auto border-2"
+            onChange={(event) => setBlockchainUrl(event.target.value)}
+          />
+          <div>
         </div>
       </div>
     </>
