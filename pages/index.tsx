@@ -7,6 +7,8 @@ import axios from "axios";
 import { render } from "react-dom";
 
 const Home = () => {
+  const subScanBaseUri = "https://shibuya.subscan.io/account/";
+
   const [block, setBlock] = useState(0);
   const [lastBlockHash, setLastBlockHash] = useState("");
   const [blockchainUrl, setBlockchainUrl] = useState("wss://rpc.shibuya.astar.network");
@@ -25,6 +27,7 @@ const Home = () => {
   const [tokenJson, setTokenJson] = useState("");
   const [tokenImageUri, setTokenImageUri] = useState("");
   const [tokenName, setTokenName] = useState("");
+  const [subScanUri, setSubScanUri] = useState(subScanBaseUri);
 
   const extensionSetup = async () => {
     const { web3Accounts, web3Enable } = await import(
@@ -48,6 +51,7 @@ const Home = () => {
     if (contractAddress == "") {
       
     }
+    const tmp = 1;
     const contract = new ContractPromise(api, abi, contractAddress);
     const {gasConsumed, result, output} = 
       await contract.query.tokenUri(contractAddress, {value: 0, gasLimit: -1}, 0);
@@ -65,6 +69,8 @@ const Home = () => {
       setTokenName(res.data.name.toString());
     });
 
+    setSubScanUri(subScanBaseUri + contractAddress);
+
   };
 
   const setup = async () => {
@@ -75,7 +81,7 @@ const Home = () => {
       setLastBlockHash(lastHeader.hash.toString());
     });
     setApi(api);
-    await extensionSetup();
+    //await extensionSetup();
     //setContractAddress('a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1');    
   };
 
@@ -96,10 +102,10 @@ const Home = () => {
           className="p-2 m-2 border-2"
           onChange={(event) => setBlockchainUrl(event.target.value)}
         />
-        <div className="p-1 m-1 hidden">Last block hash: {lastBlockHash}</div>
+        <div className="p-1 m-1">Last block hash: {lastBlockHash}</div>
         <div>
         <select
-          className="p-3 m-3 border-2 border-green-500"
+          className="p-3 m-3 border-2 border-green-500 hidden"
           onChange={(event) => {
             console.log(event);
             setActingAddress(event.target.value);
@@ -113,18 +119,17 @@ const Home = () => {
         </select>
         </div>
 
-        <p className="m-1"><a target="_blank" rel="noreferrer" href="https://shibuya.subscan.io/account/a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1">Show on Subscan</a></p>
-        <button disabled={!api || !contractAddress || !tokenId }
+        <button disabled={!contractAddress}
           className="bg-green-900 hover:bg-green-800 text-white rounded px-4 py-2"
           onClick={getTokenURI}
-        >{api && contractAddress && tokenId ? 'View NFT' : 'Loding..'}</button>
+        >{contractAddress ? 'View NFT' : 'Enter ContractAddress'}</button>
         <input
           className="p-2 m-2 border-2"
           onChange={(event) => setContractAddress(event.target.value)}
           placeholder="ContractAddress"
         />
         <input
-          className="p-2 m-2 border-2  w-20"
+          className="p-2 m-2 border-2 w-20 hidden"
           onChange={(event) => setTokenId(event.target.value)}
           placeholder="TokenID"
         />
@@ -132,6 +137,7 @@ const Home = () => {
           <div>
             <img className="p-2 m-2 w-64" src={tokenImageUri}></img>
             <p className="p-1 m-1 text-xl">{tokenName}</p>
+            <p className={contractAddress ? "m-1" : "hidden"}><a target="_blank" rel="noreferrer" href={subScanUri}>Show on Subscan</a></p>
           </div>
         </div>
         <div className="p-2 m-auto border-1 w-11/12 border border-gray-500">
@@ -142,10 +148,11 @@ const Home = () => {
           <p className="p-1 m-1 break-all" >ImageUri: {tokenJson}</p>
         </div>
         <div className="p-2 m-auto border-1 w-11/12 border border-gray-500">
-          <p className="m-1 break-all">(Cielo sby: a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1)</p>
-          <p className="m-1 break-all">(Piyo sby: Y1GKyffZjEbQghjoABVhLLenkr94nW6qpk5b5kCTw6wvBP9)</p>
-          <p className="m-1 break-all">(Cielo local: bKF9cww361bvu2qwf9hy22WM3m4Md58qukaHQxt8F5SvdxZ)</p>
-          <p className="m-1 break-all">(Piyo local: b1nAeT4AL3N9T6cXiTWjwsJmT4xAvTtcW4mqzy7pA1vwDUY)</p>
+          <h3 className="m-1 text-xl">Contracts</h3>
+          <p className="m-1 break-all">Cielo on Shibuya: a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1</p>
+          <p className="m-1 break-all">Piyo on Shibuya: Y1GKyffZjEbQghjoABVhLLenkr94nW6qpk5b5kCTw6wvBP9</p>
+          <p className="m-1 break-all">Cielo on Localcollator: bKF9cww361bvu2qwf9hy22WM3m4Md58qukaHQxt8F5SvdxZ</p>
+          <p className="m-1 break-all">Piyo on Localcollator: b1nAeT4AL3N9T6cXiTWjwsJmT4xAvTtcW4mqzy7pA1vwDUY</p>
         </div>
       </div>
     </>
