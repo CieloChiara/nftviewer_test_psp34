@@ -16,6 +16,7 @@ const Home = () => {
   const [lastBlockHash, setLastBlockHash] = useState("");
   //const [blockchainUrl, setBlockchainUrl] = useState("wss://rpc.shibuya.astar.network");
   const [blockchainUrl, setBlockchainUrl] = useState("wss://shiden.api.onfinality.io/public-ws");
+  const [blockchainName, setBlockchainName] = useState("");
 
   const [actingChain, setActingChain] = useState("");
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
@@ -34,6 +35,7 @@ const Home = () => {
   const [tokenImageUri, setTokenImageUri] = useState("");
   const [tokenName, setTokenName] = useState("");
   const [subScanUri, setSubScanUri] = useState(subScanBaseUri);
+  const [subScanTitle, setSubScanTitle] = useState("");
 
   const extensionSetup = async () => {
     const { web3Accounts, web3Enable } = await import(
@@ -48,7 +50,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    setup();
+//    setup();
   });
 
   async function getTokenURI() {
@@ -79,7 +81,13 @@ const Home = () => {
     });
 
     setSubScanUri(subScanBaseUri + contractAddress);
-
+    if (blockchainUrl == "wss://shiden.api.onfinality.io/public-ws") {
+      setSubScanTitle("Show on Subscan (Shiden)");
+    } else if (blockchainUrl == "wss://rpc.shibuya.astar.network") {
+      setSubScanTitle("Show on Subscan (Shibuya)");
+    } else {
+      setSubScanTitle("");
+    }
   };
 
   const setup = async () => {
@@ -90,6 +98,7 @@ const Home = () => {
       setLastBlockHash(lastHeader.hash.toString());
     });
     setApi(api);
+    setActingChain(blockchainUrl);
     //await extensionSetup();
     //setContractAddress('W2i3x5RUvxH1AiYvzZsHKqaV4PCZ9M3DP8EjQkSmXqTJcRQ');    
   };
@@ -101,24 +110,28 @@ const Home = () => {
 
         <div className="p-3 mt-5 m-auto border-1 w-11/12 border border-gray-500">
           <div className="p-2 mb-0 text-xl">Select blockchain</div>
+          <button
+            className="bg-green-900 hover:bg-green-800 text-white rounded px-4 py-2"
+            onClick={setup}
+          >
+            Set Blockchain
+          </button>
           <select
             className="p-3 m-3 mt-0 border-2 border-green-500"
             onChange={(event) => {
               console.log(event);
-              setActingChain(event.target.value);
               setBlockchainUrl((event.target.value));
-              setup();
             }}
           >
-              <option key="wss://shiden.api.onfinality.io/public-ws" value="wss://shiden.api.onfinality.io/public-ws">Shiden</option>
+              <option key="Shiden" value="wss://shiden.api.onfinality.io/public-ws">Shiden</option>
               <option key="wss://rpc.shibuya.astar.network" value="wss://rpc.shibuya.astar.network">Shibuya</option>
               <option key="ws://127.0.0.1:9944" value="ws://127.0.0.1:9944">Local</option>
               <option key="wss://astar-collator.cielo.works:11443" value="wss://astar-collator.cielo.works:11443">Custom</option>
           </select>
 
-          <div className="p-2 m-2">Current Blockchain URL: {blockchainUrl}</div>
-          <div className="p-1 m-1">Block: {block}</div>
-          <div className="p-1 m-auto w-11/12 break-all">Last block hash: {lastBlockHash}</div>
+          <div className="p-2 m-2">Current Blockchain URL: {actingChain? actingChain : "---"}</div>
+          <div className="p-1 m-1">Block: {block? block : "---"}</div>
+          <div className="p-1 m-auto w-11/12 break-all">Last block hash: {lastBlockHash? actingChain : "---"}</div>
         </div>
 
         <select
@@ -157,7 +170,7 @@ const Home = () => {
           <div>
             <img className="p-2 m-auto w-64" src={tokenImageUri}></img>
             <p className="p-1 m-1 text-xl">{tokenName}</p>
-            <p className={contractAddress ? "m-1" : "hidden"}><a target="_blank" rel="noreferrer" href={subScanUri}>Show on Subscan (Shibuya)</a></p>
+            <p className={contractAddress ? "m-1" : "hidden"}><a target="_blank" rel="noreferrer" href={subScanUri}>{subScanTitle}</a></p>
           </div>
         </div>
 
