@@ -5,6 +5,15 @@ import { ContractPromise } from '@polkadot/api-contract';
 import abi from './metadata.json';
 import axios from "axios";
 import { render } from "react-dom";
+import {
+  web3Accounts,
+  web3Enable,
+  web3AccountsSubscribe,
+  web3FromAddress,
+  web3ListRpcProviders,
+  web3UseRpcProvider,
+  web3FromSource
+} from '@polkadot/extension-dapp';
 
 import type { Bytes, Compact, DoNotConstruct, Enum, Int, Null, Option, Struct, U8aFixed, UInt, Vec, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import { formatNumber, numberToU8a, hexToU8a, isHex, u8aToString, stringToU8a } from '@polkadot/util';
@@ -53,16 +62,27 @@ const Home = () => {
 //    setup();
   });
 
-  async function getTokenURI() {
-    const gasLimit = 3000 * 1000000;
-    const value = 0;
-    if (contractAddress == "") {
-      
-    }
+  async function execMint() {
+    //const gasLimit = 3000 * 1000000;
+    //const value = 0;
     
     const contract = new ContractPromise(api, abi, contractAddress);
-    const {gasConsumed, result, output} = 
-      await contract.query.tokenUri(contractAddress, {value: 0, gasLimit: -1}, tokenId);
+    
+    const gasLimit = -1;
+
+    await contract.tx
+      .mintForSale({ value: 1, gasLimit }, actingAddress, 1)
+      .signAndSend(actingAddress, result => {
+        if (result.status.isInBlock) {
+          console.log('in a block');
+        } else if (result.status.isFinalized) {
+          console.log('finalized');
+        }
+      });
+
+    /*
+    const mintTokenExtrinsic = await contract.tx.mint({gasLimit});
+    const injector = await web3FromSource(actingAddress.meta.source);
     
     //setTokenURI(tokenId);
     setGasConsumed(gasConsumed.toHuman().toString());
@@ -71,12 +91,18 @@ const Home = () => {
     setOutcome(output.toHuman().toString());
     const url = output.toHuman().toString();
 
-    axios.get(url).then(res => {
-      setTokenJson(res.data.image.toString());
-      setTokenImageUri(res.data.image.toString());
-      setTokenName(res.data.name.toString());
-    });
+    mintTokenExtrinsic.signAndSend(actingAddress.address, { signer: injector.signer }, ({ status }) => {
+      if (status.isInBlock) {
+          console.log(`Completed at block hash #${status.asInBlock.toString()}`);
+      } else {
+          console.log(`Current status: ${status.type}`);
+      }
+  }).catch((error: any) => {
+      console.log(':( transaction failed', error);
+  });
+*/
 
+/*
     setSubScanUri(subScanBaseUri + contractAddress);
     if (blockchainUrl == "wss://shiden.api.onfinality.io/public-ws") {
       setSubScanTitle("Show on Subscan (Shiden)");
@@ -85,6 +111,7 @@ const Home = () => {
     } else {
       setSubScanTitle("");
     }
+*/
   };
 
   const setup = async () => {
@@ -96,14 +123,14 @@ const Home = () => {
     });
     setApi(api);
     setActingChain(blockchainUrl);
-    //await extensionSetup();
+    await extensionSetup();
     //setContractAddress('W2i3x5RUvxH1AiYvzZsHKqaV4PCZ9M3DP8EjQkSmXqTJcRQ');    
   };
 
   return (
     <>
       <div className="text-center">
-        <div className="p-3 m-3 text-3xl">NFTViewer Test</div>
+        <div className="p-3 m-3 text-3xl">NFTMint Test</div>
 
         <div className="p-3 mt-5 m-auto border-1 w-11/12 border border-gray-500">
           <div className="p-2 mb-0 text-xl">Select blockchain</div>
@@ -132,7 +159,7 @@ const Home = () => {
         </div>
 
         <select
-          className="p-3 m-3 border-2 border-green-500 hidden"
+          className="p-3 m-3 border-2 border-green-500"
           onChange={(event) => {
             console.log(event);
             setActingAddress(event.target.value);
@@ -147,10 +174,10 @@ const Home = () => {
         </div>
 
         <div className="text-center mt-5">
-          <button disabled={!contractAddress || !tokenId}
+          <button disabled={!contractAddress}
             className="bg-green-900 hover:bg-green-800 text-white rounded px-4 py-2"
-            onClick={getTokenURI}
-          >{contractAddress || tokenId ? 'View NFT' : 'Enter Blank Form'}</button>
+            onClick={execMint}
+          >{contractAddress ? 'View NFT' : 'Enter ContractAddress'}</button>
           <input
             className="p-2 m-2 border-2"
             onChange={(event) => setContractAddress(event.target.value)}
@@ -181,11 +208,11 @@ const Home = () => {
         </div>
         <div className="p-2 m-auto mb-5 border-1 w-11/12 border border-gray-500">
           <h3 className="m-1 text-xl text-center">Contracts (Shibuya)</h3>
-          <p className="m-1 break-all">CieloNFT: Z4yPLMW1mHEDtb7vhpE4D62q68GWxw3cRpzrX8gvNGHQUG1</p>
-          <p className="m-1 break-all">PiyoNFT: YSnt4PAS2L9XYsvygoecQvMGAJo3CuYN5ZYtJiFKnxtq1sz</p>
+          <p className="m-1 break-all">CieloNFT: a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1</p>
+          <p className="m-1 break-all">PiyoNFT: Y1GKyffZjEbQghjoABVhLLenkr94nW6qpk5b5kCTw6wvBP9</p>
           <h3 className="m-1 text-xl text-center">Contracts (My LocalCollator)</h3>
-          <p className="m-1 break-all">CieloNFT: W2i3x5RUvxH1AiYvzZsHKqaV4PCZ9M3DP8EjQkSmXqTJcRQ</p>
-          <p className="m-1 break-all">PiyoNFT: ZBkjgPFu1QqbcRjjfyb1wjLondbsT96ypPxdn226KnusZdv</p>
+          <p className="m-1 break-all">CieloNFT: bKF9cww361bvu2qwf9hy22WM3m4Md58qukaHQxt8F5SvdxZ</p>
+          <p className="m-1 break-all">PiyoNFT: b1nAeT4AL3N9T6cXiTWjwsJmT4xAvTtcW4mqzy7pA1vwDUY</p>
         </div>
     </>
   );
