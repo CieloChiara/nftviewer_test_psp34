@@ -86,7 +86,7 @@ const Home = () => {
       setSubScanTitle("");
     }
 
-    getOwnerOf();
+    //getOwnerOf();
   };
 
   async function getOwnerOf() {
