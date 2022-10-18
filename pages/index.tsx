@@ -7,7 +7,8 @@ import axios from "axios";
 import { render } from "react-dom";
 
 import type { Bytes, Compact, DoNotConstruct, Enum, Int, Null, Option, Struct, U8aFixed, UInt, Vec, u16, u32, u64, u8 } from '@polkadot/types-codec';
-import { formatNumber, numberToU8a, hexToU8a, isHex, u8aToString, stringToU8a } from '@polkadot/util';
+//import { formatNumber, numberToU8a, hexToU8a, isHex, u8aToString, stringToU8a } from '@polkadot/util';
+import { BN } from '@polkadot/util';
 
 const Home = () => {
   const subScanBaseUri = "https://shibuya.subscan.io/account/";
@@ -26,7 +27,8 @@ const Home = () => {
   const [contractAddress, setContractAddress] = useState("");
   const [tokenId, setTokenId] = useState("");
   const [tokenURI, setTokenURI] = useState("");
-
+  const [ownerAddress, setOwnerAddress] = useState("");
+  
   const [result, setResult] = useState("");
   const [gasConsumed, setGasConsumed] = useState("");
   const [outcome, setOutcome] = useState("");
@@ -52,19 +54,17 @@ const Home = () => {
   useEffect(() => {
 //    setup();
   });
-
+  
   async function getTokenURI() {
+
+    const BN = require('bn.js');
+    const tmp: u8 = new BN(parseInt(tokenId), 10).u8;
+
     const gasLimit = 3000 * 1000000;
-    const value = 0;
-    if (contractAddress == "") {
-      
-    }
-    
     const contract = new ContractPromise(api, abi, contractAddress);
     const {gasConsumed, result, output} = 
-      await contract.query.tokenUri(contractAddress, {value: 0, gasLimit: -1}, tokenId);
+      await contract.query.tokenUri(contractAddress, {value: 0, gasLimit: -1}, tmp);
     
-    //setTokenURI(tokenId);
     setGasConsumed(gasConsumed.toHuman().toString());
     setResult(JSON.stringify(result.toHuman()));
 
@@ -85,6 +85,32 @@ const Home = () => {
     } else {
       setSubScanTitle("");
     }
+
+    getOwnerOf();
+  };
+
+  async function getOwnerOf() {
+    const gasLimit = 3000 * 1000000;
+
+    const BN = require('bn.js');
+    const tmp: u32 = new BN(parseInt(tokenId), 10).u32;
+
+    const contract = new ContractPromise(api, abi, contractAddress);
+    const {gasConsumed, result, output} = 
+      //await contract.query['psp34::ownerOf'](
+      await contract.query.ownerOf(
+          contractAddress,
+        {value: 0, gasLimit: -1},
+        tmp);
+    
+    const resultStr: string = output.toHuman()?.toString(); 
+        //setOutcome(output.toHuman().toString());
+    if (resultStr) {
+      setOwnerAddress(resultStr);
+    } else {
+      setOwnerAddress('none');
+    }
+    //const url = output.toHuman().toString();
   };
 
   const setup = async () => {
@@ -178,6 +204,7 @@ const Home = () => {
           <p className="p-1 m-1 hidden">Gas consumed: {gasConsumed}</p>
           <p className="p-1 m-1 break-all" >ImageUri: {tokenJson}</p>
           <p className="p-1 m-1">TokenId: {tokenId}</p>
+          <p className="p-1 m-1">OwnerAddress: {ownerAddress}</p>
         </div>
         <div className="p-2 m-auto mb-5 border-1 w-11/12 border border-gray-500">
           <h3 className="m-1 text-xl text-center">Contracts (Shibuya)</h3>
