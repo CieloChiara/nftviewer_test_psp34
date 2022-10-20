@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ApiPromise, Keyring, WsProvider } from "@polkadot/api";
 import type { InjectedAccountWithMeta } from "@polkadot/extension-inject/types";
 import { ContractPromise } from '@polkadot/api-contract';
-import abi from './metadata.json';
+import abi from './metadata_type_u32.json';
 import axios from "axios";
 import { render } from "react-dom";
 import {
@@ -46,11 +46,16 @@ const Home = () => {
   const [subScanUri, setSubScanUri] = useState(subScanBaseUri);
   const [subScanTitle, setSubScanTitle] = useState("");
 
+  const gasLimit = 18750000000;
+  const storageDepositLimit = null;
+
   const extensionSetup = async () => {
+    //const extensions = await web3Enable('my cool dapp');
+
     const { web3Accounts, web3Enable } = await import(
       "@polkadot/extension-dapp"
     );
-    const extensions = await web3Enable("Polk4NET");
+    const extensions = await web3Enable("psp34Contract");
     if (extensions.length === 0) {
       return;
     }
@@ -63,15 +68,41 @@ const Home = () => {
   });
 
   async function execMint() {
-    //const gasLimit = 3000 * 1000000;
-    //const value = 0;
-    
+
+    //await extensionSetup();
+
+    const gasLimit = 30000 * 1000000;
+    const value = 0;
+
+    await api.isReady;
+/*
+    const keyring = new Keyring({ type: 'sr25519' });
+
+    const alice = keyring.addFromUri('//Alice', { name: 'Alice default' });
+
+    console.log('API is ready');
+*/
     const contract = new ContractPromise(api, abi, contractAddress);
     
-    const gasLimit = -1;
+    //const gasLimit = -1;
 
+/*
     await contract.tx
-      .mintForSale({ value: 1, gasLimit }, actingAddress, 1)
+      .mintToken({ storageDepositLimit, gasLimit })
+      .signAndSend(alice, async (res) => {
+        if (res.status.isInBlock) {
+          console.log('in a block');
+        } else if (res.status.isFinalized) {
+          console.log('finalized');
+        }
+      });
+*/
+
+    //await query(contract, alice.address);
+
+/*
+    await contract.tx
+      .mint({ value: 0, gasLimit }, 10)
       .signAndSend(actingAddress, result => {
         if (result.status.isInBlock) {
           console.log('in a block');
@@ -79,28 +110,36 @@ const Home = () => {
           console.log('finalized');
         }
       });
-
-    /*
-    const mintTokenExtrinsic = await contract.tx.mint({gasLimit});
-    const injector = await web3FromSource(actingAddress.meta.source);
-    
-    //setTokenURI(tokenId);
-    setGasConsumed(gasConsumed.toHuman().toString());
-    setResult(JSON.stringify(result.toHuman()));
-
-    setOutcome(output.toHuman().toString());
-    const url = output.toHuman().toString();
-
-    mintTokenExtrinsic.signAndSend(actingAddress.address, { signer: injector.signer }, ({ status }) => {
-      if (status.isInBlock) {
-          console.log(`Completed at block hash #${status.asInBlock.toString()}`);
-      } else {
-          console.log(`Current status: ${status.type}`);
-      }
-  }).catch((error: any) => {
-      console.log(':( transaction failed', error);
-  });
 */
+const extensions = await web3Enable("psp34Contract");
+
+
+console.log(accounts);
+
+      const mintTokenExtrinsic =
+        await contract.tx.mintToken({gasLimit}, accounts[0].address);
+      const injector = await web3FromSource(accounts[0].meta.source);
+      
+      setTokenURI(tokenId);
+      //setGasConsumed(gasConsumed.toHuman().toString());
+      //setResult(JSON.stringify(result.toHuman()));
+
+      //setOutcome(output.toHuman().toString());
+      //const url = output.toHuman().toString();
+
+      mintTokenExtrinsic.signAndSend(accounts[0].address, { signer: injector.signer }, ({ status }) => {
+        if (status.isInBlock) {
+            console.log(`Completed at block hash #${status.asInBlock.toString()}`);
+            setGasConsumed(status.asInBlock.toString());
+    } else {
+            console.log(`Current status: ${status.type}`);
+            setGasConsumed(status.type.toString());
+        }
+    }).catch((error: any) => {
+        console.log(':( transaction failed', error);
+        setGasConsumed(error.toString());
+      });
+
 
 /*
     setSubScanUri(subScanBaseUri + contractAddress);
@@ -205,6 +244,7 @@ const Home = () => {
           <p className="p-1 m-1 hidden">Gas consumed: {gasConsumed}</p>
           <p className="p-1 m-1 break-all" >ImageUri: {tokenJson}</p>
           <p className="p-1 m-1">TokenId: {tokenId}</p>
+          <p className="p-1 m-1">actingAddress: {actingAddress}</p>
         </div>
         <div className="p-2 m-auto mb-5 border-1 w-11/12 border border-gray-500">
           <h3 className="m-1 text-xl text-center">Contracts (Shibuya)</h3>
@@ -212,7 +252,9 @@ const Home = () => {
           <p className="m-1 break-all">PiyoNFT: Y1GKyffZjEbQghjoABVhLLenkr94nW6qpk5b5kCTw6wvBP9</p>
           <h3 className="m-1 text-xl text-center">Contracts (My LocalCollator)</h3>
           <p className="m-1 break-all">CieloNFT: bKF9cww361bvu2qwf9hy22WM3m4Md58qukaHQxt8F5SvdxZ</p>
-          <p className="m-1 break-all">PiyoNFT: b1nAeT4AL3N9T6cXiTWjwsJmT4xAvTtcW4mqzy7pA1vwDUY</p>
+          <p className="m-1 break-all">PiyoNFT: axjrMcZeFnZ1rbRHJX3HQaF5QEu2BRJPFwxiqyoWHsuDHZj</p>
+          <h3 className="m-1 text-xl text-center">Contracts (Local)</h3>
+          <p className="m-1 break-all">PiyoNFT(u32): 5H2mY8Gs9UjLBw3FCwzmZQSGuVDVj4vyyCFEpashtwf8MVPh</p>
         </div>
     </>
   );
