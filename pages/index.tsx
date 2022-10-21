@@ -4,13 +4,13 @@ import type { InjectedAccountWithMeta } from "@polkadot/extension-inject/types";
 import { ContractPromise } from '@polkadot/api-contract';
 import abi from '../metadata/metadata_type_u32.json';
 import axios from "axios";
-import { render } from "react-dom";
 
-import { createType, TypeRegistry, U32 } from '@polkadot/types';
-import type { Bytes, Compact, DoNotConstruct, Enum, Int, Null, Option, Struct, U8aFixed, UInt, Vec, u16, u32, u64, u8 } from '@polkadot/types-codec';
+//import { render } from "react-dom";
+//import { createType, TypeRegistry, U32 } from '@polkadot/types';
+//import type { Bytes, Compact, DoNotConstruct, Enum, Int, Null, Option, Struct, U8aFixed, UInt, Vec, u16, u32, u64, u8 } from '@polkadot/types-codec';
 //import { formatNumber, numberToU8a, hexToU8a, isHex, u8aToString, stringToU8a } from '@polkadot/util';
 //import { BN } from '@polkadot/util';
-const BN = require('bn.js');
+//const BN = require('bn.js');
 
 const Home = () => {
   const subScanBaseUri = "https://shibuya.subscan.io/account/";
@@ -41,6 +41,7 @@ const Home = () => {
   const [subScanUri, setSubScanUri] = useState(subScanBaseUri);
   const [subScanTitle, setSubScanTitle] = useState("");
 
+/*
   const extensionSetup = async () => {
     const { web3Accounts, web3Enable } = await import(
       "@polkadot/extension-dapp"
@@ -52,8 +53,9 @@ const Home = () => {
     const account = await web3Accounts();
     setAccounts(account);
   };
+*/
 
-  useEffect(() => {
+useEffect(() => {
 //    setup();
   });
   
@@ -132,7 +134,7 @@ const Home = () => {
   return (
     <>
       <div className="text-center">
-        <div className="p-3 m-3 text-3xl">NFTViewer Test</div>
+        <div className="p-3 m-3 text-3xl">PSP34 NFTViewer Sample</div>
 
         <div className="p-3 mt-5 m-auto border-1 w-11/12 border border-gray-500 rounded">
           <div className="p-2 mb-0 text-xl">Select blockchain</div>
@@ -228,6 +230,5 @@ const Home = () => {
     </>
   );
 };
-
 
 export default Home;

@@ -53,7 +53,7 @@ const Home = () => {
     const { web3Accounts, web3Enable } = await import(
       "@polkadot/extension-dapp"
     );
-    const extensions = await web3Enable("Showcase PSP34 Test");
+    const extensions = await web3Enable("Showcase PSP34 Mint Sample");
     if (extensions.length === 0) {
       return;
     }
@@ -75,7 +75,7 @@ const Home = () => {
 
     const contract = new ContractPromise(api, abi, contractAddress);
 
-    const extensions = await web3Enable("Showcase PSP34 Test");
+    const extensions = await web3Enable("Showcase PSP34 Mint Sample");
     console.log(accounts);
 
     const mintTokenExtrinsic =
@@ -129,13 +129,12 @@ const Home = () => {
     setApi(api);
     setActingChain(blockchainUrl);
     //await extensionSetup();
-    //setContractAddress('W2i3x5RUvxH1AiYvzZsHKqaV4PCZ9M3DP8EjQkSmXqTJcRQ');    
   };
 
   return (
     <>
       <div className="text-center">
-        <div className="p-3 m-3 text-3xl">NFTMint Test</div>
+        <div className="p-3 m-3 text-3xl">PSP34 NFTMint Sample</div>
 
         <div className="p-3 mt-5 m-auto border-1 w-11/12 border border-gray-500 rounded">
           <div className="p-2 mb-0 text-xl">Select blockchain</div>
@@ -231,6 +230,5 @@ const Home = () => {
     </>
   );
 };
-
 
 export default Home;
