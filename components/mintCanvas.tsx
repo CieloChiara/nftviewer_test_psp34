@@ -85,14 +85,17 @@ const Home = () => {
     mintTokenExtrinsic.signAndSend(accounts[0].address, { signer: injector.signer }, ({ status }) => {
       if (status.isInBlock) {
         console.log(`Completed at block hash #${status.asInBlock.toString()}`);
-        setGasConsumed(status.asInBlock.toString());
+        setGasConsumed("Completed at block hash #" + status.asInBlock.toString());
+      } else if (status.isFinalized) {
+        console.log('finalized');
+        setGasConsumed("finalized");
       } else {
         console.log(`Current status: ${status.type}`);
-        setGasConsumed(status.type.toString());
+        setGasConsumed("Current status: " + status.type.toString());
       }
     }).catch((error: any) => {
       console.log(':( transaction failed', error);
-      setGasConsumed(error.toString());
+      setGasConsumed(":( transaction failed: " + error.toString());
     });
 
     setSubScanUri(subScanBaseUri + contractAddress);
@@ -196,10 +199,10 @@ const Home = () => {
           <div className="hidden p-3 m-3">TokenURI: {tokenURI}</div>
           <p className="p-1 m-1 hidden">Result: {result}</p>
           <p className="p-1 m-1 break-all">MetadataUri: {outcome}</p>
-          <p className="p-1 m-1 hidden">Gas consumed: {gasConsumed}</p>
+          <p className="p-1 m-1 break-all">Gas consumed: {gasConsumed}</p>
           <p className="p-1 m-1 break-all" >ImageUri: {tokenJson}</p>
           <p className="p-1 m-1">TokenId: {tokenId}</p>
-          <p className="p-1 m-1">actingAddress: {actingAddress}</p>
+          <p className="p-1 m-1 break-all">actingAddress: {actingAddress}</p>
         </div>
         <div className="p-2 m-auto mb-5 border-1 w-11/12 border border-gray-500 rounded">
           <h3 className="m-1 text-xl text-center">Contracts (Shibuya)</h3>
