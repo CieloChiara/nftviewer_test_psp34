@@ -1,11 +1,11 @@
 {
   "source": {
-    "hash": "0x60757782d3fd48f0062100d03c28ffe8e9cad09ead3431f631596d276bba654f",
+    "hash": "0xd3478c551a16cb25c46c10066204cf35f652366028cd8df1ef64de46bf8a663c",
     "language": "ink! 3.3.1",
     "compiler": "rustc 1.64.0-nightly"
   },
   "contract": {
-    "name": "nft_psp34",
+    "name": "nft_psp34_sample",
     "version": "0.1.0",
     "authors": [
       "[your_name] <[your_email]>"
@@ -20,9 +20,9 @@
               "label": "id",
               "type": {
                 "displayName": [
-                  "Id"
+                  "u32"
                 ],
-                "type": 1
+                "type": 4
               }
             },
             {
@@ -53,9 +53,7 @@
               }
             }
           ],
-          "docs": [
-            "Constructor that initializes the `bool` value to the given `init_value`."
-          ],
+          "docs": [],
           "label": "new",
           "payable": false,
           "selector": "0x9bae9d5e"
@@ -74,14 +72,62 @@
                 ],
                 "type": 8
               }
+            }
+          ],
+          "docs": [],
+          "label": "mint_token",
+          "mutates": true,
+          "payable": false,
+          "returnType": {
+            "displayName": [
+              "Result"
+            ],
+            "type": 26
+          },
+          "selector": "0x9144cba2"
+        },
+        {
+          "args": [
+            {
+              "label": "id",
+              "type": {
+                "displayName": [
+                  "u32"
+                ],
+                "type": 4
+              }
+            }
+          ],
+          "docs": [],
+          "label": "mint",
+          "mutates": true,
+          "payable": false,
+          "returnType": {
+            "displayName": [
+              "Result"
+            ],
+            "type": 26
+          },
+          "selector": "0xcfdd9aa2"
+        },
+        {
+          "args": [
+            {
+              "label": "account",
+              "type": {
+                "displayName": [
+                  "AccountId"
+                ],
+                "type": 8
+              }
             },
             {
               "label": "id",
               "type": {
                 "displayName": [
-                  "Id"
+                  "u32"
                 ],
-                "type": 1
+                "type": 4
               }
             }
           ],
@@ -103,9 +149,9 @@
               "label": "id",
               "type": {
                 "displayName": [
-                  "Id"
+                  "u32"
                 ],
-                "type": 1
+                "type": 4
               }
             }
           ],
@@ -120,6 +166,25 @@
             "type": 28
           },
           "selector": "0x99720c1e"
+        },
+        {
+          "args": [
+            {
+              "label": "base_uri",
+              "type": {
+                "displayName": [
+                  "String"
+                ],
+                "type": 25
+              }
+            }
+          ],
+          "docs": [],
+          "label": "set_base_uri",
+          "mutates": true,
+          "payable": false,
+          "returnType": null,
+          "selector": "0xec403dee"
         },
         {
           "args": [
@@ -144,6 +209,117 @@
             "type": 25
           },
           "selector": "0x5b64e66a"
+        },
+        {
+          "args": [
+            {
+              "label": "id",
+              "type": {
+                "displayName": [
+                  "Id"
+                ],
+                "type": 1
+              }
+            }
+          ],
+          "docs": [],
+          "label": "get_id_string",
+          "mutates": false,
+          "payable": false,
+          "returnType": {
+            "displayName": [
+              "String"
+            ],
+            "type": 25
+          },
+          "selector": "0x2c4de3a9"
+        },
+        {
+          "args": [
+            {
+              "label": "operator",
+              "type": {
+                "displayName": [
+                  "psp34_external",
+                  "ApproveInput1"
+                ],
+                "type": 8
+              }
+            },
+            {
+              "label": "id",
+              "type": {
+                "displayName": [
+                  "psp34_external",
+                  "ApproveInput2"
+                ],
+                "type": 14
+              }
+            },
+            {
+              "label": "approved",
+              "type": {
+                "displayName": [
+                  "psp34_external",
+                  "ApproveInput3"
+                ],
+                "type": 29
+              }
+            }
+          ],
+          "docs": [
+            " Approves `operator` to withdraw the `id` token from the caller's account.",
+            " If `id` is `None` approves or disapproves the operator for all tokens of the caller.",
+            "",
+            " On success a `Approval` event is emitted.",
+            "",
+            " # Errors",
+            "",
+            " Returns `SelfApprove` error if it is self approve.",
+            "",
+            " Returns `NotApproved` error if caller is not owner of `id`."
+          ],
+          "label": "PSP34::approve",
+          "mutates": true,
+          "payable": false,
+          "returnType": {
+            "displayName": [
+              "psp34_external",
+              "ApproveOutput"
+            ],
+            "type": 26
+          },
+          "selector": "0x1932a8b0"
+        },
+        {
+          "args": [
+            {
+              "label": "owner",
+              "type": {
+                "displayName": [
+                  "psp34_external",
+                  "BalanceOfInput1"
+                ],
+                "type": 8
+              }
+            }
+          ],
+          "docs": [
+            " Returns the balance of the owner.",
+            "",
+            " This represents the amount of unique tokens the owner has."
+          ],
+          "label": "PSP34::balance_of",
+          "mutates": false,
+          "payable": false,
+          "returnType": {
+            "displayName": [
+              "psp34_external",
+              "BalanceOfOutput"
+            ],
+            "type": 4
+          },
+          "selector": "0xcde7e55f"
         },
         {
           "args": [
@@ -204,100 +380,6 @@
           "selector": "0x3128d61b"
         },
         {
-          "args": [],
-          "docs": [
-            " Returns current NFT total supply."
-          ],
-          "label": "PSP34::total_supply",
-          "mutates": false,
-          "payable": false,
-          "returnType": {
-            "displayName": [
-              "psp34_external",
-              "TotalSupplyOutput"
-            ],
-            "type": 6
-          },
-          "selector": "0x628413fe"
-        },
-        {
-          "args": [
-            {
-              "label": "owner",
-              "type": {
-                "displayName": [
-                  "psp34_external",
-                  "BalanceOfInput1"
-                ],
-                "type": 8
-              }
-            }
-          ],
-          "docs": [
-            " Returns the balance of the owner.",
-            "",
-            " This represents the amount of unique tokens the owner has."
-          ],
-          "label": "PSP34::balance_of",
-          "mutates": false,
-          "payable": false,
-          "returnType": {
-            "displayName": [
-              "psp34_external",
-              "BalanceOfOutput"
-            ],
-            "type": 4
-          },
-          "selector": "0xcde7e55f"
-        },
-        {
-          "args": [
-            {
-              "label": "id",
-              "type": {
-                "displayName": [
-                  "psp34_external",
-                  "OwnerOfInput1"
-                ],
-                "type": 1
-              }
-            }
-          ],
-          "docs": [
-            " Returns the owner of the token if any."
-          ],
-          "label": "PSP34::owner_of",
-          "mutates": false,
-          "payable": false,
-          "returnType": {
-            "displayName": [
-              "psp34_external",
-              "OwnerOfOutput"
-            ],
-            "type": 28
-          },
-          "selector": "0x1168624d"
-        },
-        {
-          "args": [],
-          "docs": [
-            " Returns the collection `Id` of the NFT token.",
-            "",
-            " This can represents the relationship between tokens/contracts/pallets."
-          ],
-          "label": "PSP34::collection_id",
-          "mutates": false,
-          "payable": false,
-          "returnType": {
-            "displayName": [
-              "psp34_external",
-              "CollectionIdOutput"
-            ],
-            "type": 1
-          },
-          "selector": "0xffa27a5f"
-        },
-        {
           "args": [
             {
               "label": "owner",
@@ -347,61 +429,68 @@
           "selector": "0x4790f55a"
         },
         {
+          "args": [],
+          "docs": [
+            " Returns the collection `Id` of the NFT token.",
+            "",
+            " This can represents the relationship between tokens/contracts/pallets."
+          ],
+          "label": "PSP34::collection_id",
+          "mutates": false,
+          "payable": false,
+          "returnType": {
+            "displayName": [
+              "psp34_external",
+              "CollectionIdOutput"
+            ],
+            "type": 1
+          },
+          "selector": "0xffa27a5f"
+        },
+        {
+          "args": [],
+          "docs": [
+            " Returns current NFT total supply."
+          ],
+          "label": "PSP34::total_supply",
+          "mutates": false,
+          "payable": false,
+          "returnType": {
+            "displayName": [
+              "psp34_external",
+              "TotalSupplyOutput"
+            ],
+            "type": 6
+          },
+          "selector": "0x628413fe"
+        },
+        {
           "args": [
-            {
-              "label": "operator",
-              "type": {
-                "displayName": [
-                  "psp34_external",
-                  "ApproveInput1"
-                ],
-                "type": 8
-              }
-            },
             {
               "label": "id",
               "type": {
                 "displayName": [
                   "psp34_external",
-                  "ApproveInput2"
+                  "OwnerOfInput1"
                 ],
-                "type": 14
-              }
-            },
-            {
-              "label": "approved",
-              "type": {
-                "displayName": [
-                  "psp34_external",
-                  "ApproveInput3"
-                ],
-                "type": 29
+                "type": 1
               }
             }
           ],
           "docs": [
-            " Approves `operator` to withdraw the `id` token from the caller's account.",
-            " If `id` is `None` approves or disapproves the operator for all tokens of the caller.",
-            "",
-            " On success a `Approval` event is emitted.",
-            "",
-            " # Errors",
-            "",
-            " Returns `SelfApprove` error if it is self approve.",
-            "",
-            " Returns `NotApproved` error if caller is not owner of `id`."
+            " Returns the owner of the token if any."
           ],
-          "label": "PSP34::approve",
-          "mutates": true,
+          "label": "PSP34::owner_of",
+          "mutates": false,
           "payable": false,
           "returnType": {
             "displayName": [
               "psp34_external",
-              "ApproveOutput"
+              "OwnerOfOutput"
             ],
-            "type": 26
+            "type": 28
           },
-          "selector": "0x1932a8b0"
+          "selector": "0x1168624d"
         },
         {
           "args": [
@@ -482,6 +571,47 @@
             "type": 26
           },
           "selector": "0x6c41f2ec"
+        },
+        {
+          "args": [
+            {
+              "label": "account",
+              "type": {
+                "displayName": [
+                  "psp34burnable_external",
+                  "BurnInput1"
+                ],
+                "type": 8
+              }
+            },
+            {
+              "label": "id",
+              "type": {
+                "displayName": [
+                  "psp34burnable_external",
+                  "BurnInput2"
+                ],
+                "type": 1
+              }
+            }
+          ],
+          "docs": [
+            " Destroys token with id equal to `id` from `account`",
+            "",
+            " Caller must be approved to transfer tokens from `account`",
+            " or to transfer token with `id`"
+          ],
+          "label": "PSP34Burnable::burn",
+          "mutates": true,
+          "payable": false,
+          "returnType": {
+            "displayName": [
+              "psp34burnable_external",
+              "BurnOutput"
+            ],
+            "type": 26
+          },
+          "selector": "0x63c9877a"
         }
       ]
     },
@@ -699,6 +829,15 @@
               }
             },
             "name": "initial_id"
+          },
+          {
+            "layout": {
+              "cell": {
+                "key": "0x0100000000000000000000000000000000000000000000000000000000000000",
+                "ty": 4
+              }
+            },
+            "name": "next_token_id"
           }
         ]
       }

@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import { ApiPromise, Keyring, WsProvider } from "@polkadot/api";
 import type { InjectedAccountWithMeta } from "@polkadot/extension-inject/types";
 import { ContractPromise } from '@polkadot/api-contract';
-import abi from './metadata.json';
+import abi from './metadata_type_u32.json';
 import axios from "axios";
 import { render } from "react-dom";
 
+import { createType, TypeRegistry, U32 } from '@polkadot/types';
 import type { Bytes, Compact, DoNotConstruct, Enum, Int, Null, Option, Struct, U8aFixed, UInt, Vec, u16, u32, u64, u8 } from '@polkadot/types-codec';
-import { formatNumber, numberToU8a, hexToU8a, isHex, u8aToString, stringToU8a } from '@polkadot/util';
+//import { formatNumber, numberToU8a, hexToU8a, isHex, u8aToString, stringToU8a } from '@polkadot/util';
+//import { BN } from '@polkadot/util';
+const BN = require('bn.js');
 
 const Home = () => {
   const subScanBaseUri = "https://shibuya.subscan.io/account/";
@@ -26,7 +29,8 @@ const Home = () => {
   const [contractAddress, setContractAddress] = useState("");
   const [tokenId, setTokenId] = useState("");
   const [tokenURI, setTokenURI] = useState("");
-
+  const [ownerAddress, setOwnerAddress] = useState("");
+  
   const [result, setResult] = useState("");
   const [gasConsumed, setGasConsumed] = useState("");
   const [outcome, setOutcome] = useState("");
@@ -52,19 +56,13 @@ const Home = () => {
   useEffect(() => {
 //    setup();
   });
-
+  
   async function getTokenURI() {
     const gasLimit = 3000 * 1000000;
-    const value = 0;
-    if (contractAddress == "") {
-      
-    }
-    
     const contract = new ContractPromise(api, abi, contractAddress);
     const {gasConsumed, result, output} = 
       await contract.query.tokenUri(contractAddress, {value: 0, gasLimit: -1}, tokenId);
     
-    //setTokenURI(tokenId);
     setGasConsumed(gasConsumed.toHuman().toString());
     setResult(JSON.stringify(result.toHuman()));
 
@@ -85,19 +83,38 @@ const Home = () => {
     } else {
       setSubScanTitle("");
     }
+    getOwnerOf();
+  };
+
+  async function getOwnerOf() {
+    const gasLimit = 3000 * 1000000;
+
+    const contract = new ContractPromise(api, abi, contractAddress);
+    const {gasConsumed, result, output} = 
+      //await contract.query['psp34::ownerOf'](
+      await contract.query.ownerOf(
+          contractAddress,
+        {value: 0, gasLimit: -1},
+        tokenId);
+    
+    const resultStr: string = output.toHuman()?.toString(); 
+    if (resultStr) {
+      setOwnerAddress(resultStr);
+    } else {
+      setOwnerAddress('none');
+    }
+
   };
 
   const setup = async () => {
     const wsProvider = new WsProvider(blockchainUrl);
-    const api = await ApiPromise.create({ provider: wsProvider });
+    const api = await ApiPromise.create({provider: wsProvider});
     await api.rpc.chain.subscribeNewHeads((lastHeader) => {
       setBlock(lastHeader.number.toNumber());
       setLastBlockHash(lastHeader.hash.toString());
     });
     setApi(api);
     setActingChain(blockchainUrl);
-    //await extensionSetup();
-    //setContractAddress('W2i3x5RUvxH1AiYvzZsHKqaV4PCZ9M3DP8EjQkSmXqTJcRQ');    
   };
 
   return (
@@ -178,6 +195,7 @@ const Home = () => {
           <p className="p-1 m-1 hidden">Gas consumed: {gasConsumed}</p>
           <p className="p-1 m-1 break-all" >ImageUri: {tokenJson}</p>
           <p className="p-1 m-1">TokenId: {tokenId}</p>
+          <p className="p-1 m-1">OwnerAddress: {ownerAddress}</p>
         </div>
         <div className="p-2 m-auto mb-5 border-1 w-11/12 border border-gray-500">
           <h3 className="m-1 text-xl text-center">Contracts (Shibuya)</h3>
@@ -185,7 +203,11 @@ const Home = () => {
           <p className="m-1 break-all">PiyoNFT: YSnt4PAS2L9XYsvygoecQvMGAJo3CuYN5ZYtJiFKnxtq1sz</p>
           <h3 className="m-1 text-xl text-center">Contracts (My LocalCollator)</h3>
           <p className="m-1 break-all">CieloNFT: W2i3x5RUvxH1AiYvzZsHKqaV4PCZ9M3DP8EjQkSmXqTJcRQ</p>
-          <p className="m-1 break-all">PiyoNFT: ZBkjgPFu1QqbcRjjfyb1wjLondbsT96ypPxdn226KnusZdv</p>
+          <p className="m-1 break-all">PiyoNFT: axjrMcZeFnZ1rbRHJX3HQaF5QEu2BRJPFwxiqyoWHsuDHZj</p>
+          <p className="m-1 break-all">PiyoNFT(String): XrA1HZDaEvs2MRKSgPcWeg75v8e9FMA52LwovzzRqu5BEuX</p>
+          <p className="m-1 break-all">PiyoNFT(Id): XWDPTaSaWDWrj2zSA2uAR5FccmsZpmyJgba3deokamP7dgG</p>
+          <h3 className="m-1 text-xl text-center">Contracts (Local)</h3>
+          <p className="m-1 break-all">PiyoNFT(u32): 5H2mY8Gs9UjLBw3FCwzmZQSGuVDVj4vyyCFEpashtwf8MVPh</p>
         </div>
     </>
   );
