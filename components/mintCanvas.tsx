@@ -209,7 +209,7 @@ const Home = () => {
           <p className="m-1 break-all">CieloNFT: bKF9cww361bvu2qwf9hy22WM3m4Md58qukaHQxt8F5SvdxZ</p>
           <p className="m-1 break-all">PiyoNFT: axjrMcZeFnZ1rbRHJX3HQaF5QEu2BRJPFwxiqyoWHsuDHZj</p>
           <h3 className="m-1 text-xl text-center">Contracts (Local)</h3>
-          <p className="m-1 break-all">PiyoNFT(u32): 5H2mY8Gs9UjLBw3FCwzmZQSGuVDVj4vyyCFEpashtwf8MVPh</p>
+          <p className="m-1 break-all">PiyoNFT(u32): 5DtZSdzvuHxXJKGuCzXMXBvfyR467vkcdhWLpd2Nqyqhnx9N</p>
         </div>
     </>
   );
