@@ -122,7 +122,7 @@ const Home = () => {
       <div className="text-center">
         <div className="p-3 m-3 text-3xl">NFTViewer Test</div>
 
-        <div className="p-3 mt-5 m-auto border-1 w-11/12 border border-gray-500">
+        <div className="p-3 mt-5 m-auto border-1 w-11/12 border border-gray-500 rounded">
           <div className="p-2 mb-0 text-xl">Select blockchain</div>
           <button
             className="bg-green-900 hover:bg-green-800 text-white rounded px-4 py-2"
@@ -131,21 +131,22 @@ const Home = () => {
             Set Blockchain
           </button>
           <select
-            className="p-3 m-3 mt-0 border-2 border-green-500"
+            className="p-3 m-3 mt-0 border-2 border-green-500 rounded"
             onChange={(event) => {
               console.log(event);
               setBlockchainUrl((event.target.value));
             }}
           >
+              <option key="None" value="">-- select --</option>
               <option key="Shiden" value="wss://shiden.api.onfinality.io/public-ws">Shiden</option>
-              <option key="wss://rpc.shibuya.astar.network" value="wss://rpc.shibuya.astar.network">Shibuya</option>
-              <option key="ws://127.0.0.1:9944" value="ws://127.0.0.1:9944">Local</option>
-              <option key="wss://astar-collator.cielo.works:11443" value="wss://astar-collator.cielo.works:11443">Custom</option>
+              <option key="Shibuya" value="wss://rpc.shibuya.astar.network">Shibuya</option>
+              <option key="Local" value="ws://127.0.0.1:9944">Local</option>
+              <option key="Custom" value="wss://astar-collator.cielo.works:11443">Custom</option>
           </select>
 
           <div className="p-2 m-2">Current Blockchain URL: {actingChain? actingChain : "---"}</div>
           <div className="p-1 m-1">Block: {block? block : "---"}</div>
-          <div className="p-1 m-auto w-11/12 break-all">Last block hash: {lastBlockHash? actingChain : "---"}</div>
+          <div className="p-1 m-auto w-11/12 break-all">Last block hash: {lastBlockHash? lastBlockHash : "---"}</div>
         </div>
 
         <select
@@ -163,18 +164,18 @@ const Home = () => {
         </select>
         </div>
 
-        <div className="text-center mt-5">
+        <div className="text-center mt-5 ">
           <button disabled={!contractAddress || !tokenId}
             className="bg-green-900 hover:bg-green-800 text-white rounded px-4 py-2"
             onClick={getTokenURI}
           >{contractAddress || tokenId ? 'View NFT' : 'Enter Blank Form'}</button>
           <input
-            className="p-2 m-2 border-2"
+            className="p-2 m-2 border-2 rounded"
             onChange={(event) => setContractAddress(event.target.value)}
             placeholder="ContractAddress"
           />
           <input
-            className="p-2 m-2 border-2 w-20"
+            className="p-2 m-2 border-2 w-20 rounded"
             onChange={(event) => setTokenId(event.target.value)}
             placeholder="TokenID"
           />
@@ -188,7 +189,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="p-2 mt-5 m-auto border-1 w-11/12 border border-gray-500">
+        <div className="p-2 mt-5 m-auto border-1 w-11/12 border border-gray-500 rounded">
           <div className="hidden p-3 m-3">TokenURI: {tokenURI}</div>
           <p className="p-1 m-1 hidden">Result: {result}</p>
           <p className="p-1 m-1 break-all">MetadataUri: {outcome}</p>
@@ -197,7 +198,7 @@ const Home = () => {
           <p className="p-1 m-1">TokenId: {tokenId}</p>
           <p className="p-1 m-1">OwnerAddress: {ownerAddress}</p>
         </div>
-        <div className="p-2 m-auto mb-5 border-1 w-11/12 border border-gray-500">
+        <div className="p-2 m-auto mb-5 border-1 w-11/12 border border-gray-500 rounded">
           <h3 className="m-1 text-xl text-center">Contracts (Shibuya)</h3>
           <p className="m-1 break-all">CieloNFT: Z4yPLMW1mHEDtb7vhpE4D62q68GWxw3cRpzrX8gvNGHQUG1</p>
           <p className="m-1 break-all">PiyoNFT: YSnt4PAS2L9XYsvygoecQvMGAJo3CuYN5ZYtJiFKnxtq1sz</p>
