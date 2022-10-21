@@ -17,8 +17,7 @@ const Home = () => {
 
   const [block, setBlock] = useState(0);
   const [lastBlockHash, setLastBlockHash] = useState("");
-  //const [blockchainUrl, setBlockchainUrl] = useState("wss://rpc.shibuya.astar.network");
-  const [blockchainUrl, setBlockchainUrl] = useState("wss://shiden.api.onfinality.io/public-ws");
+  const [blockchainUrl, setBlockchainUrl] = useState("");
   const [blockchainName, setBlockchainName] = useState("");
 
   const [actingChain, setActingChain] = useState("");
@@ -58,6 +57,10 @@ const Home = () => {
   });
   
   async function getTokenURI() {
+    if (!blockchainUrl || !block) {
+      alert("Please select Blockchain and click 'Set Blockchain' button.");
+      return;
+    }
     const gasLimit = 3000 * 1000000;
     const contract = new ContractPromise(api, abi, contractAddress);
     const {gasConsumed, result, output} = 
@@ -111,6 +114,9 @@ const Home = () => {
   };
 
   const setup = async () => {
+    if (!blockchainUrl) {
+      return;
+    }
     const wsProvider = new WsProvider(blockchainUrl);
     const api = await ApiPromise.create({provider: wsProvider});
     await api.rpc.chain.subscribeNewHeads((lastHeader) => {

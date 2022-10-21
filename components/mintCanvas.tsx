@@ -20,7 +20,7 @@ const Home = () => {
 
   const [block, setBlock] = useState(0);
   const [lastBlockHash, setLastBlockHash] = useState("");
-  const [blockchainUrl, setBlockchainUrl] = useState("wss://shiden.api.onfinality.io/public-ws");
+  const [blockchainUrl, setBlockchainUrl] = useState("");
   const [blockchainName, setBlockchainName] = useState("");
 
   const [actingChain, setActingChain] = useState("");
@@ -46,6 +46,10 @@ const Home = () => {
   const storageDepositLimit = null;
 
   const extensionSetup = async () => {
+    if (!blockchainUrl || !block) {
+      alert("Please select Blockchain and click 'Set Blockchain' button.");
+      return;
+    }
     const { web3Accounts, web3Enable } = await import(
       "@polkadot/extension-dapp"
     );
@@ -62,7 +66,10 @@ const Home = () => {
   });
 
   async function execMint() {
-
+    if (!blockchainUrl || !block || !accounts[0]?.address) {
+      alert("Please select Blockchain and click 'Set Blockchain' button and click 'Set Account' button.");
+      return;
+    }
     const gasLimit = 30000 * 1000000;
     const value = 0;
 
@@ -110,6 +117,9 @@ const Home = () => {
   };
 
   const setup = async () => {
+    if (!blockchainUrl) {
+      return;
+    }
     const wsProvider = new WsProvider(blockchainUrl);
     const api = await ApiPromise.create({ provider: wsProvider });
     await api.rpc.chain.subscribeNewHeads((lastHeader) => {
