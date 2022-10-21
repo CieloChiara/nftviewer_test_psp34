@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ApiPromise, Keyring, WsProvider } from "@polkadot/api";
 import type { InjectedAccountWithMeta } from "@polkadot/extension-inject/types";
 import { ContractPromise } from '@polkadot/api-contract';
-import abi from '../pages/metadata_type_u32.json';
+import abi from '../metadata/metadata_type_u32.json';
 import axios from "axios";
 import { render } from "react-dom";
 import {
