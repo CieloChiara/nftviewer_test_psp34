@@ -61,7 +61,10 @@ const Home = () => {
     const gasLimit = 3000 * 1000000;
     const contract = new ContractPromise(api, abi, contractAddress);
     const {gasConsumed, result, output} = 
-      await contract.query.tokenUri(contractAddress, {value: 0, gasLimit: -1}, tokenId);
+      await contract.query.tokenUri(
+        contractAddress,
+        {value: 0, gasLimit: -1},
+        tokenId);
     
     setGasConsumed(gasConsumed.toHuman().toString());
     setResult(JSON.stringify(result.toHuman()));
@@ -91,11 +94,12 @@ const Home = () => {
 
     const contract = new ContractPromise(api, abi, contractAddress);
     const {gasConsumed, result, output} = 
-      //await contract.query['psp34::ownerOf'](
+      //await contract.query["psp34::ownerOf"](
       await contract.query.ownerOf(
-          contractAddress,
+        contractAddress,
         {value: 0, gasLimit: -1},
         tokenId);
+        //{u32: tokenId});
     
     const resultStr: string = output.toHuman()?.toString(); 
     if (resultStr) {
@@ -199,16 +203,18 @@ const Home = () => {
           <p className="p-1 m-1 break-all">OwnerAddress: {ownerAddress}</p>
         </div>
         <div className="p-2 m-auto mb-5 border-1 w-11/12 border border-gray-500 rounded">
-          <h3 className="m-1 text-xl text-center">Contracts (Shibuya)</h3>
-          <p className="m-1 break-all">CieloNFT: Z4yPLMW1mHEDtb7vhpE4D62q68GWxw3cRpzrX8gvNGHQUG1</p>
-          <p className="m-1 break-all">PiyoNFT: YSnt4PAS2L9XYsvygoecQvMGAJo3CuYN5ZYtJiFKnxtq1sz</p>
-          <h3 className="m-1 text-xl text-center">Contracts (My LocalCollator)</h3>
-          <p className="m-1 break-all">CieloNFT: W2i3x5RUvxH1AiYvzZsHKqaV4PCZ9M3DP8EjQkSmXqTJcRQ</p>
-          <p className="m-1 break-all">PiyoNFT: axjrMcZeFnZ1rbRHJX3HQaF5QEu2BRJPFwxiqyoWHsuDHZj</p>
-          <p className="m-1 break-all">PiyoNFT(String): XrA1HZDaEvs2MRKSgPcWeg75v8e9FMA52LwovzzRqu5BEuX</p>
-          <p className="m-1 break-all">PiyoNFT(Id): XWDPTaSaWDWrj2zSA2uAR5FccmsZpmyJgba3deokamP7dgG</p>
-          <h3 className="m-1 text-xl text-center">Contracts (Local)</h3>
-          <p className="m-1 break-all">PiyoNFT(u32): 5DtZSdzvuHxXJKGuCzXMXBvfyR467vkcdhWLpd2Nqyqhnx9N</p>
+          <h3 className="m-1 text-xl text-center">Sample Contracts (Shiden)</h3>
+          <p className="m-1 break-all">CieloNFT(u32): ZzT8xAQL96avegYRBJSHCoQG8na7YFdtMeWuZRwnWsm27Kv</p>
+          <p className="m-1 break-all">PiyoNFT(u32): WxZtwaq5DRJ8zZ1JidXyXEx1VVYMHMK4SA3jGim89bWa4Qy</p>
+          <h3 className="m-1 text-xl text-center">Sample Contracts (Shibuya)</h3>
+          <p className="m-1 break-all">CieloNFT(u32): Wo8i6CdBGLQjMpjXocfNrfgNbfhzu1anzmYJW7dednMCpM4</p>
+          <p className="m-1 break-all">PiyoNFT(u32): W5vkB5FaPuqfiWzc8Tf3fpbWXQK7WtMnm9gaUBAw8zPGZUS</p>
+          <h3 className="m-1 text-xl text-center">Sample Contracts (Local)</h3>
+          <p className="m-1 break-all">CieloNFT(u32): 5Gsoxy9iZeB5DFfAofK3G4iQRef6nJuPiwH4FvuRrwTmAYr4</p>
+          <p className="m-1 break-all">PiyoNFT(u32): 5F2KAddG4bKHUWNnjnxZoHUNepeFMKgnZsModVYHFegqdzog</p>
+          <h3 className="m-1 text-xl text-center">Sample Contracts (CileoCollator)</h3>
+          <p className="m-1 break-all">CieloNFT(u32): YhnQHo51cgXCLecaSgqCZ9gfApUbB4L8jeJR7mhwnVMDwqJ</p>
+          <p className="m-1 break-all">PiyoNFT(u32): YDtdRHfNagMGVnXLDav1MdBoxY5SND76eQVTrVS6HHWoAXs</p>
         </div>
     </>
   );

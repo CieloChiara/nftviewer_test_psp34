@@ -196,23 +196,27 @@ const Home = () => {
         </div>
 
         <div className="p-2 mt-5 m-auto border-1 w-11/12 border border-gray-500 rounded">
+          <p className="p-1 m-1 break-all">Status: {gasConsumed}</p>
           <div className="hidden p-3 m-3">TokenURI: {tokenURI}</div>
           <p className="p-1 m-1 hidden">Result: {result}</p>
           <p className="p-1 m-1 break-all">MetadataUri: {outcome}</p>
-          <p className="p-1 m-1 break-all">Gas consumed: {gasConsumed}</p>
           <p className="p-1 m-1 break-all" >ImageUri: {tokenJson}</p>
           <p className="p-1 m-1">TokenId: {tokenId}</p>
           <p className="p-1 m-1 break-all">actingAddress: {actingAddress}</p>
         </div>
         <div className="p-2 m-auto mb-5 border-1 w-11/12 border border-gray-500 rounded">
+          <h3 className="m-1 text-xl text-center">Sample Contracts (Shiden)</h3>
+          <p className="m-1 break-all">CieloNFT(u32): ZzT8xAQL96avegYRBJSHCoQG8na7YFdtMeWuZRwnWsm27Kv</p>
+          <p className="m-1 break-all">PiyoNFT(u32): WxZtwaq5DRJ8zZ1JidXyXEx1VVYMHMK4SA3jGim89bWa4Qy</p>
           <h3 className="m-1 text-xl text-center">Contracts (Shibuya)</h3>
-          <p className="m-1 break-all">CieloNFT: a1YGBqnLkLYkW3QfGWGn7XVQMGurxY5R9yYBTv8RHa537e1</p>
-          <p className="m-1 break-all">PiyoNFT: Y1GKyffZjEbQghjoABVhLLenkr94nW6qpk5b5kCTw6wvBP9</p>
-          <h3 className="m-1 text-xl text-center">Contracts (My LocalCollator)</h3>
-          <p className="m-1 break-all">CieloNFT: bKF9cww361bvu2qwf9hy22WM3m4Md58qukaHQxt8F5SvdxZ</p>
-          <p className="m-1 break-all">PiyoNFT: axjrMcZeFnZ1rbRHJX3HQaF5QEu2BRJPFwxiqyoWHsuDHZj</p>
+          <p className="m-1 break-all">CieloNFT(u32): Wo8i6CdBGLQjMpjXocfNrfgNbfhzu1anzmYJW7dednMCpM4</p>
+          <p className="m-1 break-all">PiyoNFT(u32): W5vkB5FaPuqfiWzc8Tf3fpbWXQK7WtMnm9gaUBAw8zPGZUS</p>
           <h3 className="m-1 text-xl text-center">Contracts (Local)</h3>
-          <p className="m-1 break-all">PiyoNFT(u32): 5DtZSdzvuHxXJKGuCzXMXBvfyR467vkcdhWLpd2Nqyqhnx9N</p>
+          <p className="m-1 break-all">CieloNFT(u32): 5Gsoxy9iZeB5DFfAofK3G4iQRef6nJuPiwH4FvuRrwTmAYr4</p>
+          <p className="m-1 break-all">PiyoNFT(u32): 5F2KAddG4bKHUWNnjnxZoHUNepeFMKgnZsModVYHFegqdzog</p>
+          <h3 className="m-1 text-xl text-center">Contracts (CileoCollator)</h3>
+          <p className="m-1 break-all">CieloNFT(u32): YhnQHo51cgXCLecaSgqCZ9gfApUbB4L8jeJR7mhwnVMDwqJ</p>
+          <p className="m-1 break-all">PiyoNFT(u32): YDtdRHfNagMGVnXLDav1MdBoxY5SND76eQVTrVS6HHWoAXs</p>
         </div>
     </>
   );
