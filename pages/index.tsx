@@ -196,9 +196,9 @@ const Home = () => {
         <div className="text-center">
           <div>
             <img className="p-2 m-auto w-64" src={tokenImageUri}></img>
-            <p className="p-1 m-1 text-xl">{tokenName}</p>
-            <p className="p-1 m-1">{tokenDescription}</p>
-            <p className={contractAddress ? "m-1" : "hidden"}><a target="_blank" rel="noreferrer" href={subScanUri}>{subScanTitle}</a></p>
+            <p className="p-1 m-1 text-xl break-words">{tokenName}</p>
+            <p className="p-1 m-1 break-words">{tokenDescription}</p>
+            <p className={contractAddress ? "m-1 break-all" : "hidden"}><a target="_blank" rel="noreferrer" href={subScanUri}>{subScanTitle}</a></p>
           </div>
         </div>
 
