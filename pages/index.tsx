@@ -37,6 +37,7 @@ const Home = () => {
   const [tokenJson, setTokenJson] = useState("");
   const [tokenImageUri, setTokenImageUri] = useState("");
   const [tokenName, setTokenName] = useState("");
+  const [tokenDescription, setTokenDescription] = useState("");
   const [subScanUri, setSubScanUri] = useState(subScanBaseUri);
   const [subScanTitle, setSubScanTitle] = useState("");
 
@@ -79,6 +80,7 @@ const Home = () => {
       setTokenJson(res.data.image.toString());
       setTokenImageUri(res.data.image.toString());
       setTokenName(res.data.name.toString());
+      setTokenDescription(res.data.description.toString());
     });
 
     setSubScanUri(subScanBaseUri + contractAddress);
@@ -195,6 +197,7 @@ const Home = () => {
           <div>
             <img className="p-2 m-auto w-64" src={tokenImageUri}></img>
             <p className="p-1 m-1 text-xl">{tokenName}</p>
+            <p className="p-1 m-1">{tokenDescription}</p>
             <p className={contractAddress ? "m-1" : "hidden"}><a target="_blank" rel="noreferrer" href={subScanUri}>{subScanTitle}</a></p>
           </div>
         </div>
