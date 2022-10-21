@@ -132,37 +132,37 @@ const Home = () => {
   };
 
   return (
-    <>
-      <div className="text-center">
-        <div className="p-3 m-3 text-3xl">PSP34 NFTMint Sample</div>
+    <div className="text-center">
+      <div className="p-3 m-3 text-3xl">PSP34 NFTMint Sample</div>
 
-        <div className="p-3 mt-5 m-auto border-1 w-11/12 border border-gray-500 rounded">
-          <div className="p-2 mb-0 text-xl">Select blockchain</div>
-          <button
-            className="bg-green-900 hover:bg-green-800 text-white rounded px-4 py-2"
-            onClick={setup}
-          >
-            Set Blockchain
-          </button>
-          <select
-            className="p-3 m-3 mt-0 border-2 border-green-500 rounded"
-            onChange={(event) => {
-              console.log(event);
-              setBlockchainUrl((event.target.value));
-            }}
-          >
-              <option key="None" value="">-- select --</option>
-              <option key="Shiden" value="wss://shiden.api.onfinality.io/public-ws">Shiden</option>
-              <option key="Shibuya" value="wss://rpc.shibuya.astar.network">Shibuya</option>
-              <option key="Local" value="ws://127.0.0.1:9944">Local</option>
-              <option key="Custom" value="wss://astar-collator.cielo.works:11443">Custom</option>
-          </select>
+      <div className="p-3 mt-5 m-auto border-1 w-11/12 border border-gray-500 rounded">
+        <div className="p-2 mb-0 text-xl">Select blockchain</div>
+        <button
+          className="bg-green-900 hover:bg-green-800 text-white rounded px-4 py-2"
+          onClick={setup}
+        >
+          Set Blockchain
+        </button>
+        <select
+          className="p-3 m-3 mt-0 border-2 border-green-500 rounded"
+          onChange={(event) => {
+            console.log(event);
+            setBlockchainUrl((event.target.value));
+          }}
+        >
+            <option key="None" value="">-- select --</option>
+            <option key="Shiden" value="wss://shiden.api.onfinality.io/public-ws">Shiden</option>
+            <option key="Shibuya" value="wss://rpc.shibuya.astar.network">Shibuya</option>
+            <option key="Local" value="ws://127.0.0.1:9944">Local</option>
+            <option key="Custom" value="wss://astar-collator.cielo.works:11443">Custom</option>
+        </select>
 
-          <div className="p-2 m-2">Current Blockchain URL: {actingChain? actingChain : "---"}</div>
-          <div className="p-1 m-1">Block: {block? block : "---"}</div>
-          <div className="p-1 m-auto w-11/12 break-all">Last block hash: {lastBlockHash? lastBlockHash : "---"}</div>
-        </div>
+        <div className="p-2 m-2">Current Blockchain URL: {actingChain? actingChain : "---"}</div>
+        <div className="p-1 m-1">Block: {block? block : "---"}</div>
+        <div className="p-1 m-auto w-11/12 break-all">Last block hash: {lastBlockHash? lastBlockHash : "---"}</div>
+      </div>
 
+      <div className="text-center mt-4">
         <button
             className="bg-green-900 hover:bg-green-800 text-white rounded px-4 py-2"
             onClick={extensionSetup}
@@ -182,52 +182,52 @@ const Home = () => {
             </option>
           ))}
         </select>
-        </div>
+      </div>
 
-        <div className="text-center mt-5">
-          <button disabled={!contractAddress}
-            className="bg-green-900 hover:bg-green-800 text-white rounded px-4 py-2"
-            onClick={execMint}
-          >{contractAddress ? 'Mint NFT' : 'Enter ContractAddress'}</button>
-          <input
-            className="p-2 m-2 border-2 w-64 rounded"
-            onChange={(event) => setContractAddress(event.target.value)}
-            placeholder="ContractAddress"
-          />
-        </div>
+      <div className="text-center mt-3">
+        <button disabled={!contractAddress}
+          className="bg-green-900 hover:bg-green-800 text-white rounded px-4 py-2"
+          onClick={execMint}
+        >{contractAddress ? 'Mint NFT' : 'Enter ContractAddress'}</button>
+        <input
+          className="p-2 m-2 border-2 w-64 rounded"
+          onChange={(event) => setContractAddress(event.target.value)}
+          placeholder="ContractAddress"
+        />
+      </div>
 
-        <div className="text-center">
-          <div>
-            <img className="p-2 m-auto w-64" src={tokenImageUri}></img>
-            <p className="p-1 m-1 text-xl">{tokenName}</p>
-            <p className={contractAddress ? "m-1" : "hidden"}><a target="_blank" rel="noreferrer" href={subScanUri}>{subScanTitle}</a></p>
-          </div>
+      <div className="text-center">
+        <div>
+          <img className="p-2 m-auto w-64" src={tokenImageUri}></img>
+          <p className="p-1 m-1 text-xl">{tokenName}</p>
+          <p className={contractAddress ? "m-1" : "hidden"}><a target="_blank" rel="noreferrer" href={subScanUri}>{subScanTitle}</a></p>
         </div>
+      </div>
 
-        <div className="p-2 mt-5 m-auto border-1 w-11/12 border border-gray-500 rounded">
-          <p className="p-1 m-1 break-all">Status: {gasConsumed}</p>
-          <div className="hidden p-3 m-3">TokenURI: {tokenURI}</div>
-          <p className="p-1 m-1 hidden">Result: {result}</p>
-          <p className="p-1 m-1 break-all">MetadataUri: {outcome}</p>
-          <p className="p-1 m-1 break-all" >ImageUri: {tokenJson}</p>
-          <p className="p-1 m-1">TokenId: {tokenId}</p>
-          <p className="p-1 m-1 break-all">actingAddress: {actingAddress}</p>
-        </div>
-        <div className="p-2 m-auto mb-5 border-1 w-11/12 border border-gray-500 rounded">
-          <h3 className="m-1 text-xl text-center">Sample Contracts (Shiden)</h3>
-          <p className="m-1 break-all">CieloNFT(u32): ZzT8xAQL96avegYRBJSHCoQG8na7YFdtMeWuZRwnWsm27Kv</p>
-          <p className="m-1 break-all">PiyoNFT(u32): WxZtwaq5DRJ8zZ1JidXyXEx1VVYMHMK4SA3jGim89bWa4Qy</p>
-          <h3 className="m-1 text-xl text-center">Contracts (Shibuya)</h3>
-          <p className="m-1 break-all">CieloNFT(u32): Wo8i6CdBGLQjMpjXocfNrfgNbfhzu1anzmYJW7dednMCpM4</p>
-          <p className="m-1 break-all">PiyoNFT(u32): W5vkB5FaPuqfiWzc8Tf3fpbWXQK7WtMnm9gaUBAw8zPGZUS</p>
-          <h3 className="m-1 text-xl text-center">Contracts (Local)</h3>
-          <p className="m-1 break-all">CieloNFT(u32): 5Gsoxy9iZeB5DFfAofK3G4iQRef6nJuPiwH4FvuRrwTmAYr4</p>
-          <p className="m-1 break-all">PiyoNFT(u32): 5F2KAddG4bKHUWNnjnxZoHUNepeFMKgnZsModVYHFegqdzog</p>
-          <h3 className="m-1 text-xl text-center">Contracts (CileoCollator)</h3>
-          <p className="m-1 break-all">CieloNFT(u32): YhnQHo51cgXCLecaSgqCZ9gfApUbB4L8jeJR7mhwnVMDwqJ</p>
-          <p className="m-1 break-all">PiyoNFT(u32): YDtdRHfNagMGVnXLDav1MdBoxY5SND76eQVTrVS6HHWoAXs</p>
-        </div>
-    </>
+      <div className="text-left p-2 mt-5 m-auto border-1 w-11/12 border border-gray-500 rounded">
+        <p className="p-1 m-1 break-all">Status: {gasConsumed}</p>
+        <div className="hidden p-3 m-3">TokenURI: {tokenURI}</div>
+        <p className="p-1 m-1 hidden">Result: {result}</p>
+        <p className="p-1 m-1 break-all">MetadataUri: {outcome}</p>
+        <p className="p-1 m-1 break-all" >ImageUri: {tokenJson}</p>
+        <p className="p-1 m-1">TokenId: {tokenId}</p>
+        <p className="p-1 m-1 break-all">actingAddress: {actingAddress}</p>
+      </div>
+      <div className="text-left p-2 m-auto mb-5 border-1 w-11/12 border border-gray-500 rounded">
+        <h3 className="m-1 text-xl text-center">Sample Contracts (Shiden)</h3>
+        <p className="m-1 break-all">CieloNFT(u32): ZzT8xAQL96avegYRBJSHCoQG8na7YFdtMeWuZRwnWsm27Kv</p>
+        <p className="m-1 break-all">PiyoNFT(u32): WxZtwaq5DRJ8zZ1JidXyXEx1VVYMHMK4SA3jGim89bWa4Qy</p>
+        <h3 className="m-1 text-xl text-center">Contracts (Shibuya)</h3>
+        <p className="m-1 break-all">CieloNFT(u32): Wo8i6CdBGLQjMpjXocfNrfgNbfhzu1anzmYJW7dednMCpM4</p>
+        <p className="m-1 break-all">PiyoNFT(u32): W5vkB5FaPuqfiWzc8Tf3fpbWXQK7WtMnm9gaUBAw8zPGZUS</p>
+        <h3 className="m-1 text-xl text-center">Contracts (Local)</h3>
+        <p className="m-1 break-all">CieloNFT(u32): 5Gsoxy9iZeB5DFfAofK3G4iQRef6nJuPiwH4FvuRrwTmAYr4</p>
+        <p className="m-1 break-all">PiyoNFT(u32): 5F2KAddG4bKHUWNnjnxZoHUNepeFMKgnZsModVYHFegqdzog</p>
+        <h3 className="m-1 text-xl text-center">Contracts (CileoCollator)</h3>
+        <p className="m-1 break-all">CieloNFT(u32): YhnQHo51cgXCLecaSgqCZ9gfApUbB4L8jeJR7mhwnVMDwqJ</p>
+        <p className="m-1 break-all">PiyoNFT(u32): YDtdRHfNagMGVnXLDav1MdBoxY5SND76eQVTrVS6HHWoAXs</p>
+      </div>
+    </div>
   );
 };
 
