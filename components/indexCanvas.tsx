@@ -13,7 +13,7 @@ import axios from "axios";
 //import { BN } from '@polkadot/util';
 //const BN = require('bn.js');
 
-const Home = () => {
+const IndexCanvas = () => {
   const [block, setBlock] = useState(0);
   const [lastBlockHash, setLastBlockHash] = useState("");
   const [blockchainUrl, setBlockchainUrl] = useState("");
@@ -235,4 +235,4 @@ useEffect(() => {
   );
 };
 
-export default Home;
+export default IndexCanvas;

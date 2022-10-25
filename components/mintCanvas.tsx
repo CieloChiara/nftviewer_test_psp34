@@ -15,7 +15,7 @@ import {
   web3FromSource
 } from '@polkadot/extension-dapp';
 
-const Home = () => {
+const MintCanvas = () => {
   const subScanBaseUri = "https://shibuya.subscan.io/account/";
 
   const [block, setBlock] = useState(0);
@@ -231,4 +231,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default MintCanvas;
