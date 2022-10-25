@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ApiPromise, Keyring, WsProvider } from "@polkadot/api";
 import type { InjectedAccountWithMeta } from "@polkadot/extension-inject/types";
 import { ContractPromise } from '@polkadot/api-contract';
-import abi from '../metadata/metadata_type_u32.json';
+import abi from '../metadata/metadata_type_Id_2.json';
 import axios from "axios";
 //import Image from "next/image";
 
@@ -112,8 +112,8 @@ useEffect(() => {
       await contract.query.ownerOf(
         contractAddress,
         {value: 0, gasLimit: -1},
-        tokenId);
-        //{u32: tokenId});
+        //tokenId);
+        {u64: tokenId});
     
     const resultStr: string = output?.toHuman()?.toString()!; 
     if (resultStr) {
@@ -224,6 +224,7 @@ useEffect(() => {
         <h3 className="m-1 text-xl text-center">Sample Contracts (Shibuya)</h3>
         <p className="m-1 break-all">CieloNFT(u32): Wo8i6CdBGLQjMpjXocfNrfgNbfhzu1anzmYJW7dednMCpM4</p>
         <p className="m-1 break-all">PiyoNFT(u32): W5vkB5FaPuqfiWzc8Tf3fpbWXQK7WtMnm9gaUBAw8zPGZUS</p>
+        <p className="m-1 break-all bg-orange-600">PiyoNFT(Type Id): YkAbxTkvVcWittwTpxxT652c3zo2qjGq39d87hZZbst5UsD</p>
         <h3 className="m-1 text-xl text-center">Sample Contracts (Local)</h3>
         <p className="m-1 break-all">CieloNFT(u32): 5Gsoxy9iZeB5DFfAofK3G4iQRef6nJuPiwH4FvuRrwTmAYr4</p>
         <p className="m-1 break-all">PiyoNFT(u32): 5F2KAddG4bKHUWNnjnxZoHUNepeFMKgnZsModVYHFegqdzog</p>
