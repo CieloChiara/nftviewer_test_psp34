@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ApiPromise, Keyring, WsProvider } from "@polkadot/api";
 import type { InjectedAccountWithMeta } from "@polkadot/extension-inject/types";
 import { ContractPromise } from '@polkadot/api-contract';
-import abi from '../metadata/metadata_type_u32.json';
+import abi from '../metadata/metadata_type_Id_3.json';
 import axios from "axios";
 import { render } from "react-dom";
 import {
@@ -70,7 +70,7 @@ const MintCanvas = () => {
       alert("Please select Blockchain and click 'Set Blockchain' button and click 'Set Account' button.");
       return;
     }
-    const gasLimit = 30000 * 1000000;
+    const gasLimit = 30000 * 10000000;
     const value = 0;
 
     const contract = new ContractPromise(api, abi, contractAddress);
@@ -79,7 +79,7 @@ const MintCanvas = () => {
     console.log(accounts);
 
     const mintTokenExtrinsic =
-      await contract.tx.mint({gasLimit}, { u32: tokenId });
+      await contract.tx.mint({gasLimit}, { u64: tokenId });
     const injector = await web3FromSource(accounts[0].meta.source);
     
     setTokenURI(tokenId);
@@ -225,6 +225,7 @@ const MintCanvas = () => {
         <h3 className="m-1 text-xl text-center">Contracts (Shibuya)</h3>
         <p className="m-1 break-all">CieloNFT(u32): Wo8i6CdBGLQjMpjXocfNrfgNbfhzu1anzmYJW7dednMCpM4</p>
         <p className="m-1 break-all">PiyoNFT(u32): W5vkB5FaPuqfiWzc8Tf3fpbWXQK7WtMnm9gaUBAw8zPGZUS</p>
+        <p className="m-1 break-all bg-orange-600">PiyoNFT(Type Id): ZKN1C6nXkw6FFbLz2G8mwzs8SYq4uY8hjQCdQVRiUG8UjKj</p>
         <h3 className="m-1 text-xl text-center">Contracts (Local)</h3>
         <p className="m-1 break-all">CieloNFT(u32): 5Gsoxy9iZeB5DFfAofK3G4iQRef6nJuPiwH4FvuRrwTmAYr4</p>
         <p className="m-1 break-all">PiyoNFT(u32): 5F2KAddG4bKHUWNnjnxZoHUNepeFMKgnZsModVYHFegqdzog</p>
