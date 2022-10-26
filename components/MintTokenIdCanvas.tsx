@@ -5,6 +5,11 @@ import { ContractPromise } from '@polkadot/api-contract';
 import abi from '../metadata/metadata_type_Id_3.json';
 import axios from "axios";
 import { render } from "react-dom";
+
+import Header from "./Header";
+import Footer from "./Footer";
+import SampleContractsList from "./SampleContractsList";
+
 import {
   web3Accounts,
   web3Enable,
@@ -133,9 +138,8 @@ const MintCanvas = () => {
 
   return (
     <div className="text-center">
-      <div className="p-3 m-3 text-3xl">PSP34 NFTMint Sample</div>
-
-      <div className="p-3 mt-5 m-auto border-1 w-11/12 border border-gray-500 rounded">
+      <Header />
+      <div className="p-3 mt-2 m-auto border-1 w-11/12 border border-gray-500 rounded">
         <div className="p-2 mb-0 text-xl">Select blockchain</div>
         <button
           className="bg-green-900 hover:bg-green-800 text-white rounded px-4 py-2"
@@ -218,21 +222,8 @@ const MintCanvas = () => {
         <p className="p-1 m-1">TokenId: {tokenId}</p>
         <p className="p-1 m-1 break-all">actingAddress: {actingAddress}</p>
       </div>
-      <div className="text-left p-2 m-auto mb-5 border-1 w-11/12 border border-gray-500 rounded">
-        <h3 className="m-1 text-xl text-center">Sample Contracts (Shiden)</h3>
-        <p className="m-1 break-all">CieloNFT(u32): ZzT8xAQL96avegYRBJSHCoQG8na7YFdtMeWuZRwnWsm27Kv</p>
-        <p className="m-1 break-all">PiyoNFT(u32): WxZtwaq5DRJ8zZ1JidXyXEx1VVYMHMK4SA3jGim89bWa4Qy</p>
-        <h3 className="m-1 text-xl text-center">Contracts (Shibuya)</h3>
-        <p className="m-1 break-all">CieloNFT(u32): Wo8i6CdBGLQjMpjXocfNrfgNbfhzu1anzmYJW7dednMCpM4</p>
-        <p className="m-1 break-all">PiyoNFT(u32): W5vkB5FaPuqfiWzc8Tf3fpbWXQK7WtMnm9gaUBAw8zPGZUS</p>
-        <p className="m-1 break-all bg-orange-600">PiyoNFT(Type Id): ZKN1C6nXkw6FFbLz2G8mwzs8SYq4uY8hjQCdQVRiUG8UjKj</p>
-        <h3 className="m-1 text-xl text-center">Contracts (Local)</h3>
-        <p className="m-1 break-all">CieloNFT(u32): 5Gsoxy9iZeB5DFfAofK3G4iQRef6nJuPiwH4FvuRrwTmAYr4</p>
-        <p className="m-1 break-all">PiyoNFT(u32): 5F2KAddG4bKHUWNnjnxZoHUNepeFMKgnZsModVYHFegqdzog</p>
-        <h3 className="m-1 text-xl text-center">Contracts (CileoCollator)</h3>
-        <p className="m-1 break-all">CieloNFT(u32): YhnQHo51cgXCLecaSgqCZ9gfApUbB4L8jeJR7mhwnVMDwqJ</p>
-        <p className="m-1 break-all">PiyoNFT(u32): YDtdRHfNagMGVnXLDav1MdBoxY5SND76eQVTrVS6HHWoAXs</p>
-      </div>
+      <SampleContractsList />
+      <Footer />
     </div>
   );
 };
