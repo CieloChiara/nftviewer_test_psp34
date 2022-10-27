@@ -2,12 +2,12 @@ import { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 //import Header from '@components/Header'
 
-const Canvas = dynamic(() => import('../components/MintTokenIdCanvas'), {
+const Canvas = dynamic(() => import('../components/IndexCanvas'), {
   ssr: false,
-  loading: () => <p>Now Loading...</p>,
+  //loading: () => <p>Now Loading...</p>,
 })
 
-const MintPage: NextPage = () => {
+const IndexPage: NextPage = () => {
   return (
     <main>
       <Canvas />
@@ -15,4 +15,4 @@ const MintPage: NextPage = () => {
   )
 };
 
-export default MintPage;
+export default IndexPage;
