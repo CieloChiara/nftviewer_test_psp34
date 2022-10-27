@@ -9,11 +9,9 @@ const Canvas = dynamic(() => import('../components/MintCanvas'), {
 
 const MintPage: NextPage = () => {
   return (
-    <>
-      <main>
-        <Canvas />
-      </main>
-    </>
+    <main>
+      <Canvas />
+    </main>
   )
 };
 

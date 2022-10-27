@@ -9,11 +9,9 @@ const Canvas = dynamic(() => import('../components/IndexCanvas'), {
 
 const IndexPage: NextPage = () => {
   return (
-    <>
-      <main>
-        <Canvas />
-      </main>
-    </>
+    <main>
+      <Canvas />
+    </main>
   )
 };
 

@@ -10,28 +10,30 @@ import Footer from "./Footer";
 import SampleContractsList from "./SampleContractsList";
 
 const IndexCanvas = () => {
-  
-  const blockchains = [
-    {
-      name: 'Shiden', 
-      url: 'wss://shiden.api.onfinality.io/public-ws',
-      subscan_url: 'https://shiden.subscan.io/account/',
-    },
-    {
-      name: 'Shibuya',
-      url: 'wss://rpc.shibuya.astar.network',
-      subscan_url: 'https://shibuya.subscan.io/account/',
-    },
-    {
-      name: 'Local',
-      url: 'ws://127.0.0.1:9944',
-    },
-    {
-      name: 'Custom',
-      url: 'wss://astar-collator.cielo.works:11443'
-    },
-  ];
 
+  const blockchains = {
+    blockchain: [
+      {
+        name: 'Shiden', 
+        url: 'wss://shiden.api.onfinality.io/public-ws',
+        subscan_url: 'https://shiden.subscan.io/account/',
+      },
+      {
+        name: 'Shibuya',
+        url: 'wss://rpc.shibuya.astar.network',
+        subscan_url: 'https://shibuya.subscan.io/account/',
+      },
+      {
+        name: 'Local',
+        url: 'ws://127.0.0.1:9944',
+      },
+      {
+        name: 'Custom',
+        url: 'wss://astar-collator.cielo.works:11443'
+      },
+    ]
+  };
+  
   const [block, setBlock] = useState(0);
   const [lastBlockHash, setLastBlockHash] = useState("");
   const [blockchainUrl, setBlockchainUrl] = useState("");
@@ -41,7 +43,7 @@ const IndexCanvas = () => {
 
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
   const [actingAddress, setActingAddress] = useState("");
-  const [api, setApi] = useState<any>();
+  const [api, setApi] = useState<ApiPromise>();
 
   const [contractAddress, setContractAddress] = useState("");
   const [tokenId, setTokenId] = useState("");
@@ -59,12 +61,14 @@ const IndexCanvas = () => {
   const [subScanUri, setSubScanUri] = useState("");
   const [subScanTitle, setSubScanTitle] = useState("");
 
+  let subScanBaseUri = "";
+
 /*
   const extensionSetup = async () => {
     const { web3Accounts, web3Enable } = await import(
       "@polkadot/extension-dapp"
     );
-    const extensions = await web3Enable("Showcase PSP34 Mint Sample");
+    const extensions = await web3Enable("Polk4NET");
     if (extensions.length === 0) {
       return;
     }
@@ -106,8 +110,9 @@ useEffect(() => {
     }
 
     if (actingChainName === "Shiden" || actingChainName === "Shibuya") {
-      const newDataset = blockchains.filter(data => data.name === actingChainName);
-      const subScanBaseUri = newDataset[0]?.subscan_url;
+      const newDataset = blockchains.blockchain.filter(data => data.name === actingChainName);
+      const subscanUrl = newDataset[0]?.subscan_url;
+      subScanBaseUri = subscanUrl;
       setSubScanUri(subScanBaseUri + contractAddress);
       setSubScanTitle('Show on Subscan (' + actingChainName + ')');
     } else {
@@ -148,7 +153,7 @@ useEffect(() => {
       }
     }
 
-    const newDataset = blockchains
+    const newDataset = blockchains.blockchain
       .filter(data => data.name === blockchainName);
     const chainUrl = newDataset[0]?.url;
     //blockchainUrl = newDataset[0]?.url;
@@ -232,40 +237,40 @@ useEffect(() => {
 
       <div className="text-left p-2 pt-0 mt-5 m-auto max-w-6xl w-11/12 border-[#323943] bg-[#121923] border border-1 rounded">
 
-        <div className="text-center mt-4">
-          <div className="mb-3 text-xl">NFT View</div>
-          <button disabled={!contractAddress || !tokenId}
-            className="bg-[#184e9b] hover:bg-[#1964cf] hover:duration-500 disabled:bg-stone-700 text-white rounded px-4 py-2"
-            onClick={getTokenURI}
-          >{contractAddress || tokenId ? 'View NFT' : 'Enter Blank Form'}</button>
-          <input
-            className="p-2 m-2 bg-[#020913] border-2 border-gray-300 rounded"
-            onChange={(event) => setContractAddress(event.target.value)}
-            placeholder="ContractAddress"
-          />
-          <input
-            className="p-2 m-2 w-20 bg-[#020913] border-2 border-gray-300 rounded"
-            onChange={(event) => setTokenId(event.target.value)}
-            placeholder="TokenID"
-          />
-        </div>
+      <div className="text-center mt-4">
+        <div className="mb-3 text-xl">NFT View</div>
+        <button disabled={!contractAddress || !tokenId}
+          className="bg-[#184e9b] hover:bg-[#1964cf] hover:duration-500 disabled:bg-stone-700 text-white rounded px-4 py-2"
+          onClick={getTokenURI}
+        >{contractAddress || tokenId ? 'View NFT' : 'Enter Blank Form'}</button>
+        <input
+          className="p-2 m-2 bg-[#020913] border-2 border-gray-300 rounded"
+          onChange={(event) => setContractAddress(event.target.value)}
+          placeholder="ContractAddress"
+        />
+        <input
+          className="p-2 m-2 w-20 bg-[#020913] border-2 border-gray-300 rounded"
+          onChange={(event) => setTokenId(event.target.value)}
+          placeholder="TokenID"
+        />
+      </div>
 
-        <div className="text-center">
-          <div>
-            <img className="p-2 m-auto w-64" src={tokenImageUri} />
-            <p className="p-1 m-1 text-xl break-words">{tokenName}</p>
-            <p className="p-1 m-1 break-words">{tokenDescription}</p>
-            <p className={contractAddress ? "m-1 break-all" : "hidden"}><a target="_blank" rel="noreferrer" href={subScanUri}>{subScanTitle}</a></p>
-          </div>
-        </div>
-
+      <div className="text-center">
         <div>
-          <p className="p-1 m-1 break-all">MetadataUri: {outcome}</p>
-          <p className="p-1 m-1 break-all" >ImageUri: {tokenJson}</p>
-          <p className="p-1 m-1">TokenId: {tokenId}</p>
-          <p className="p-1 m-1 break-all">OwnerAddress: {ownerAddress}</p>
+          <img className="p-2 m-auto w-64" src={tokenImageUri} />
+          <p className="p-1 m-1 text-xl break-words">{tokenName}</p>
+          <p className="p-1 m-1 break-words">{tokenDescription}</p>
+          <p className={contractAddress ? "m-1 break-all" : "hidden"}><a target="_blank" rel="noreferrer" href={subScanUri}>{subScanTitle}</a></p>
         </div>
       </div>
+
+      <div>
+        <p className="p-1 m-1 break-all">MetadataUri: {outcome}</p>
+        <p className="p-1 m-1 break-all" >ImageUri: {tokenJson}</p>
+        <p className="p-1 m-1">TokenId: {tokenId}</p>
+        <p className="p-1 m-1 break-all">OwnerAddress: {ownerAddress}</p>
+      </div>
+</div>
       <SampleContractsList />
       <Footer />
     </div>

@@ -21,32 +21,32 @@ const SampleContractsList = (): JSX.Element => {
   };
 
   return (
-    <div className="text-left p-2 m-auto mt-5 w-11/12 border-[#323943] bg-[#121923] border border-1 rounded">
+    <div className="text-left max-w-6xl p-2 m-auto mt-5 w-11/12 border-[#323943] bg-[#121923] border border-1 rounded">
       <h3 className="m-1 text-xl text-center">Sample Contracts</h3>
-      <dd role="list" className="m-1 break-all">
+      <dl role="list" className="m-1 break-all">
         <dt className="m-1 text-xl">Shiden</dt>
         {navigation.shiden.map((item) => (
-          <dl className="ml-4" key={item.name}>{item.name}: {item.address}</dl>
+          <dd className="ml-4" key={item.name}>{item.name}: {item.address}</dd>
         ))}
-      </dd>
-      <dd role="list" className="mt-3 m-1 break-all">
+      </dl>
+      <dl role="list" className="mt-3 m-1 break-all">
         <dt className="m-1 text-xl">Shibuya</dt>
         {navigation.shibuya.map((item) => (
-          <dl className="ml-4" key={item.name}>{item.name}: {item.address}</dl>
+          <dd className="ml-4" key={item.name}>{item.name}: {item.address}</dd>
         ))}
-      </dd>
-      <dd role="list" className="mt-3 m-1 break-all">
+      </dl>
+      <dl role="list" className="mt-3 m-1 break-all">
         <dt className="m-1 text-xl">Local</dt>
         {navigation.local.map((item) => (
-          <dl className="ml-4" key={item.name}>{item.name}: {item.address}</dl>
+          <dd className="ml-4" key={item.name}>{item.name}: {item.address}</dd>
         ))}
-      </dd>
-      <dd role="list" className="mt-3 m-1 break-all">
+      </dl>
+      <dl role="list" className="mt-3 m-1 break-all">
         <dt className="m-1 text-xl">Custom</dt>
         {navigation.custom.map((item) => (
-          <dl className="ml-4" key={item.name}>{item.name}: {item.address}</dl>
+          <dd className="ml-4" key={item.name}>{item.name}: {item.address}</dd>
         ))}
-      </dd>
+      </dl>
     </div>
   );
 };
