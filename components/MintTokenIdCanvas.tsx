@@ -22,8 +22,7 @@ import {
 
 const MintCanvas = () => {
 
-  const blockchains = {
-    blockchain: [
+  const blockchains = [
       {
         name: 'Shiden', 
         url: 'wss://shiden.api.onfinality.io/public-ws',
@@ -42,8 +41,7 @@ const MintCanvas = () => {
         name: 'Custom',
         url: 'wss://astar-collator.cielo.works:11443'
       },
-    ]
-  };
+  ];
   
   const [block, setBlock] = useState(0);
   const [lastBlockHash, setLastBlockHash] = useState("");
@@ -89,6 +87,9 @@ const MintCanvas = () => {
     }
     const account = await web3Accounts();
     setAccounts(account);
+    if (!actingAddress) {
+      setActingAddress(account[0].address);
+    }
   };
 
   useEffect(() => {
@@ -96,7 +97,7 @@ const MintCanvas = () => {
   });
 
   async function execMint() {
-    if (!blockchainUrl || !block || !accounts[0]?.address) {
+    if (!blockchainUrl || !block || accounts.length == 0) {
       alert("Please select Blockchain and click 'Set Blockchain' button and click 'Set Account' button.");
       return;
     }
@@ -104,13 +105,17 @@ const MintCanvas = () => {
     const value = 0;
 
     const contract = new ContractPromise(api, abi, contractAddress);
-
-    const extensions = await web3Enable("Showcase PSP34 Mint Sample");
-    console.log(accounts);
+    const account = accounts.filter(data => data.address === actingAddress);
 
     const mintTokenExtrinsic =
       await contract.tx.mint({gasLimit}, { u64: tokenId });
-    const injector = await web3FromSource(accounts[0].meta.source);
+
+    let injector: any;
+    if (accounts.length == 1) {
+      injector = await web3FromSource(accounts[0].meta.source);
+    } else if (accounts.length > 1) {
+      injector = await web3FromSource(account[0].meta.source);
+    } else {}
     
     setTokenURI(tokenId);
     //setGasConsumed(gasConsumed.toHuman().toString());
@@ -119,13 +124,15 @@ const MintCanvas = () => {
     //setOutcome(output.toHuman().toString());
     //const url = output.toHuman().toString();
 
-    mintTokenExtrinsic.signAndSend(accounts[0].address, { signer: injector.signer }, ({ status }) => {
+    mintTokenExtrinsic.signAndSend(actingAddress, { signer: injector.signer }, ({ status }) => {
       if (status.isInBlock) {
         console.log(`Completed at block hash #${status.asInBlock.toString()}`);
         setGasConsumed("Completed at block hash #" + status.asInBlock.toString());
+        getTokenURI();
       } else if (status.isFinalized) {
         console.log('finalized');
         setGasConsumed("finalized");
+        getTokenURI();
       } else {
         console.log(`Current status: ${status.type}`);
         setGasConsumed("Current status: " + status.type.toString());
@@ -134,22 +141,71 @@ const MintCanvas = () => {
       console.log(':( transaction failed', error);
       setGasConsumed(":( transaction failed: " + error.toString());
     });
+  
+  };
+
+  async function getTokenURI() {
+    if (!blockchainUrl || !block) {
+      alert("Please select Blockchain and click 'Set Blockchain' button.");
+      return;
+    }
+    const gasLimit = 3000 * 1000000;
+    const contract = new ContractPromise(api, abi, contractAddress);
+    const {gasConsumed, result, output} = 
+      await contract.query.tokenUri(
+        contractAddress,
+        {value: 0, gasLimit: -1},
+        {u64: tokenId});
+    
+    setResult(JSON.stringify(result.toHuman()));
+    console.log(gasConsumed.toHuman().toString());
+    console.log(result);
+
+    const url = output?.toHuman()?.toString();
+    if (url !== undefined) {
+      setOutcome(url);
+      axios.get(url).then(res => {
+        setTokenJson(res.data.image.toString());
+        setTokenImageUri(res.data.image.toString());
+        setTokenName(res.data.name.toString());
+        setTokenDescription(res.data.description.toString());
+      });
+    }
 
     if (actingChainName === "Shiden" || actingChainName === "Shibuya") {
-      const newDataset = blockchains.blockchain.filter(data => data.name === actingChainName);
-      const subscanUrl = newDataset[0]?.subscan_url;
-      const subScanBaseUri = subscanUrl;
+      const newDataset = blockchains.filter(data => data.name === actingChainName);
+      const subScanBaseUri = newDataset[0]?.subscan_url;
       setSubScanUri(subScanBaseUri + contractAddress);
       setSubScanTitle('Show on Subscan (' + actingChainName + ')');
     } else {
       setSubScanTitle("");
     }
-  
+
+    getOwnerOf();
+  };
+
+  async function getOwnerOf() {
+    const gasLimit = 3000 * 1000000;
+
+    const contract = new ContractPromise(api, abi, contractAddress);
+    const {gasConsumed, result, output} = 
+      await contract.query.ownerOf(
+        contractAddress,
+        {value: 0, gasLimit: -1},
+        {u64: tokenId});
+    
+    const resultStr: string = output?.toHuman()?.toString()!; 
+    if (resultStr) {
+      setOwnerAddress(resultStr);
+    } else {
+      setOwnerAddress('none');
+    }
+
   };
 
   const setup = async () => {
 
-    const newDataset = blockchains.blockchain
+    const newDataset = blockchains
       .filter(data => data.name === blockchainName);
     const chainUrl = newDataset[0]?.url;
     //blockchainUrl = newDataset[0]?.url;
@@ -236,7 +292,7 @@ const MintCanvas = () => {
           className="p-2 m-2 bg-[#020913] border-2 border-gray-300 rounded"
           onChange={(event) => setContractAddress(event.target.value)}
           placeholder="ContractAddress"
-        />
+        />        
         <input
           className="p-2 m-2 bg-[#020913] border-2 w-20 rounded"
           onChange={(event) => setTokenId(event.target.value)}
@@ -245,12 +301,31 @@ const MintCanvas = () => {
       </div>
 
       <div className="text-center p-2 mt-5 m-auto max-w-6xl w-11/12 border-[#323943] bg-[#121923] border border-1 rounded">
-        <div>
-          <img className="p-2 m-auto w-64" src={tokenImageUri} />
-          <p className="p-1 m-1 text-xl break-words">{tokenName}</p>
-          <p className="p-1 m-1 break-words">{tokenDescription}</p>
-          <p className={contractAddress ? "m-1 break-all" : "hidden"}><a target="_blank" rel="noreferrer" href={subScanUri}>{subScanTitle}</a></p>
+        <div className="mb-3 text-xl">NFT View</div>
+        <button disabled={!contractAddress || !tokenId}
+          className="bg-[#184e9b] hover:bg-[#1964cf] hover:duration-500 disabled:bg-stone-700 text-white rounded px-4 py-2"
+          onClick={getTokenURI}
+        >{contractAddress || tokenId ? 'View NFT' : 'Enter Blank Form'}</button>
+        <input
+          className="p-2 m-2 bg-[#020913] border-2 border-gray-300 rounded"
+          onChange={(event) => setContractAddress(event.target.value)}
+          placeholder="ContractAddress"
+        />
+        <input
+          className="p-2 m-2 w-20 bg-[#020913] border-2 border-gray-300 rounded"
+          onChange={(event) => setTokenId(event.target.value)}
+          placeholder="TokenID"
+        />
+
+        <div className="text-center">
+          <div>
+            <img className="p-2 m-auto w-64" src={tokenImageUri} />
+            <p className="p-1 m-1 text-xl break-words">{tokenName}</p>
+            <p className="p-1 m-1 break-words">{tokenDescription}</p>
+            <p className={contractAddress ? "m-1 break-all" : "hidden"}><a target="_blank" rel="noreferrer" href={subScanUri}>{subScanTitle}</a></p>
+          </div>
         </div>
+
       </div>
 
       <div className="text-left p-2 mt-5 m-auto max-w-6xl w-11/12 border-[#323943] bg-[#121923] border border-1 rounded">

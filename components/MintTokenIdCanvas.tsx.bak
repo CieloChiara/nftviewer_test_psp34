@@ -238,7 +238,7 @@ const MintCanvas = () => {
           placeholder="ContractAddress"
         />
         <input
-          className="p-2 m-2 border-2 w-20 rounded"
+          className="p-2 m-2 bg-[#020913] border-2 w-20 rounded"
           onChange={(event) => setTokenId(event.target.value)}
           placeholder="TokenID"
         />
