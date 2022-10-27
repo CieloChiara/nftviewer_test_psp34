@@ -2,21 +2,20 @@ const SampleContractsList = (): JSX.Element => {
   
   const navigation = {
     shiden: [
-      { name: 'CieloNFT(u32)', address: 'ZzT8xAQL96avegYRBJSHCoQG8na7YFdtMeWuZRwnWsm27Kv' },
-      { name: 'PiyoNFT(u32)', address: 'WxZtwaq5DRJ8zZ1JidXyXEx1VVYMHMK4SA3jGim89bWa4Qy' },
+//      { name: 'CieloNFT(u32)', address: 'ZzT8xAQL96avegYRBJSHCoQG8na7YFdtMeWuZRwnWsm27Kv' },
+      { name: 'PiyoNFT(Type Id(u64))', address: 'none' },
     ],
     shibuya: [
-      { name: 'CieloNFT(u32)', address: 'Wo8i6CdBGLQjMpjXocfNrfgNbfhzu1anzmYJW7dednMCpM4' },
-      { name: 'PiyoNFT(u32)', address: 'W5vkB5FaPuqfiWzc8Tf3fpbWXQK7WtMnm9gaUBAw8zPGZUS' },
-      { name: 'PiyoNFT(Type Id)', address: 'ZKN1C6nXkw6FFbLz2G8mwzs8SYq4uY8hjQCdQVRiUG8UjKj' },
+//      { name: 'CieloNFT(u32)', address: 'Wo8i6CdBGLQjMpjXocfNrfgNbfhzu1anzmYJW7dednMCpM4' },
+      { name: 'PiyoNFT(Type Id(u64))', address: 'XNAYVzBdtHuLHmSe5Qd4d8oYFbZjrscnBmjCoNTzZ5mvCQ7' },
     ],
     local: [
-      { name: 'CieloNFT(u32)', address: '5Gsoxy9iZeB5DFfAofK3G4iQRef6nJuPiwH4FvuRrwTmAYr4' },
-      { name: 'PiyoNFT(u32)', address: '5F2KAddG4bKHUWNnjnxZoHUNepeFMKgnZsModVYHFegqdzog' },
+//      { name: 'CieloNFT(u32)', address: '5Gsoxy9iZeB5DFfAofK3G4iQRef6nJuPiwH4FvuRrwTmAYr4' },
+      { name: 'PiyoNFT(Type Id(u64))', address: '5FznWdUyTbfzbPv9UoQdoLowCLiBNi3GSmwqDJYpKbDrskAj' },
     ],
     custom: [
-      { name: 'CieloNFT(u32)', address: 'YhnQHo51cgXCLecaSgqCZ9gfApUbB4L8jeJR7mhwnVMDwqJ' },
-      { name: 'PiyoNFT(u32)', address: 'YDtdRHfNagMGVnXLDav1MdBoxY5SND76eQVTrVS6HHWoAXs' },
+//      { name: 'CieloNFT(u32)', address: 'YhnQHo51cgXCLecaSgqCZ9gfApUbB4L8jeJR7mhwnVMDwqJ' },
+      { name: 'PiyoNFT(Type Id(u64))', address: 'ZH4inkNLS8V54p3mSxr78iMcDhMVJEWj1MUfNoTCi7iUkTQ' },
     ],
   };
 
