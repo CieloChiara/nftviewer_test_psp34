@@ -13,12 +13,12 @@ const Navigation = (): JSX.Element => {
           <a className="p-3 text-lg nav-link-default-color hover:duration-500 hover:text-white">{'Viewer'}</a>
         </ActiveLink>
 
-        <ActiveLink href="/mint_token_id" activeClassName="text-gray-100">
-          <a className="p-2 text-lg nav-link-default-color hover:duration-500 hover:text-white">{'Mint (With TokenId)'}</a>
+        <ActiveLink href="/mint" activeClassName="text-gray-100">
+          <a className="p-2 text-lg nav-link-default-color hover:duration-500 hover:text-white">{'Mint'}</a>
         </ActiveLink>
 
-        <ActiveLink href="/mint" activeClassName="text-gray-100">
-          <a className="p-2 text-lg nav-link-default-color hover:duration-500 hover:text-white">{'Mint (Without TokenId)'}</a>
+        <ActiveLink href="/mint_token_id" activeClassName="text-gray-100">
+          <a className="p-2 text-lg nav-link-default-color hover:duration-500 hover:text-white">{'Mint (With TokenId)'}</a>
         </ActiveLink>
 
         <ActiveLink href="/util" activeClassName="text-gray-100">
